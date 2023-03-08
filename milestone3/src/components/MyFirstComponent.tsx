@@ -32,6 +32,9 @@ export class MyFirstComponent extends React.Component<props, state> {
     // typescript code block in the render block
     onClick = () => {
         this.setState({buttonText: "I have been pressed!"})
+        // console.log() is javascript version of print statements
+        // to see the console logs, go to a webpage, right click, click inspect element (or F12) to open dev tools
+        // then you can go to the console tab to see what is printed out
         console.log("I am printing something sudo random ")
     }
 
@@ -58,6 +61,7 @@ export class MyFirstComponent extends React.Component<props, state> {
                     // div is a division. Think of this as a box that holds stuff
                     <div>
                         {/* onClick is a default thing, when you click this button, call the function */}
+                        {/* Hey this is using a string object as text, this is very useful! */}
                         <button onClick={this.onClick}>{this.state.buttonText}</button>
                     </div>
                 }
