@@ -23,7 +23,7 @@ export class MyFirstComponent extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
         this.state = {
-            buttonText: "Im a button"
+            buttonText: "button"
         }
     }
 
@@ -35,7 +35,7 @@ export class MyFirstComponent extends React.Component<props, state> {
         // console.log() is javascript version of print statements
         // to see the console logs, go to a webpage, right click, click inspect element (or F12) to open dev tools
         // then you can go to the console tab to see what is printed out
-        console.log("I am printing something sudo random ")
+        console.log("I am printing something random ")
     }
 
 
@@ -63,6 +63,7 @@ export class MyFirstComponent extends React.Component<props, state> {
                         {/* onClick is a default thing, when you click this button, call the function */}
                         {/* Hey this is using a string object as text, this is very useful! */}
                         <button onClick={this.onClick}>{this.state.buttonText}</button>
+                        <p> this is a paragraph html tag</p>
                     </div>
                 }
             </>
