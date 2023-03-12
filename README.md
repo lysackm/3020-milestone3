@@ -59,3 +59,9 @@ This is a list of tasks that need to be completed. They are probably going to ra
 - tooltips
   - I icon
   - tooltips on buttons
+
+## Libraries Used
+
+https://uiwjs.github.io/react-color/#/wheel used for the color wheel
+
+https://mui.com/material-ui/getting-started/installation/ used for the sliders
