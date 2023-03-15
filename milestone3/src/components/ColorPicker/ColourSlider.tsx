@@ -1,6 +1,6 @@
 import { Slider } from "@mui/material"
 import { RgbaColor } from "@uiw/react-color"
-import React, { useState } from "react"
+import React from "react"
 import "./ColorPicker.css"
 
 interface props {
