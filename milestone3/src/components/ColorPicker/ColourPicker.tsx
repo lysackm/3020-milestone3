@@ -1,55 +1,47 @@
 import React from "react";
-import {HsvaColor} from "@uiw/color-convert";
-import {hsvaToHex, Wheel} from "@uiw/react-color";
+import {ColorResult, RgbaColor, rgbaToHex} from "@uiw/color-convert";
+import {rgbaToHsva, Wheel} from "@uiw/react-color";
 import "./ColorPicker.css"
-import {Slider} from "@mui/material";
+import { ColourSlider } from "./ColourSlider";
 
 interface props {}
 
-// this is the state that you need inside of this component ONLY
 interface state {
-    hsva: HsvaColor
+    colour: RgbaColor
 }
 
-export class ColorPicker extends React.Component<props, state> {
+export class ColourPicker extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
         this.state = {
-            hsva: { h: 0, s: 0, v: 68, a: 1 }
+            colour: { r: 255, g: 255, b: 255, a: 1}
+        }  
+    }
+
+    adjustSlider = (value: number, sliderColour: string) => {
+        let newColour = this.state.colour
+
+        if(sliderColour === 'r'){
+            newColour = { ...this.state.colour, r: value}
+        }else if(sliderColour === 'g'){
+            newColour = { ...this.state.colour, g: value}
+        }else if(sliderColour === 'b'){
+            newColour = { ...this.state.colour, b: value}
         }
+
+        this.setState({colour: newColour})
     }
 
     render() {
         return (
             <div className={"colorPicker"}>
-                <div className={"block"} style={{background: hsvaToHex(this.state.hsva)}}/>
+                <div className={"block"} style={{background: rgbaToHex(this.state.colour)}}/>
                 <div className={"display"}>
-                    <Slider
-                        className={"slider"}
-                        defaultValue={50}
-                        aria-label="Default"
-                        valueLabelDisplay="auto"
-                    />
-                    <Slider
-                        className={"slider"}
-                        defaultValue={50}
-                        aria-label="Default"
-                        valueLabelDisplay="auto"
-                    />
-                    <Slider
-                        className={"slider"}
-                        defaultValue={50}
-                        aria-label="Default"
-                        valueLabelDisplay="auto"
-                    />
-                    <Slider
-                        className={"slider"}
-                        defaultValue={50}
-                        aria-label="Default"
-                        valueLabelDisplay="auto"
-                    />
+                    <ColourSlider colour={this.state.colour} colourName={"r"} updateColour={this.adjustSlider}></ColourSlider>
+                    <ColourSlider colour={this.state.colour} colourName={"g"} updateColour={this.adjustSlider}></ColourSlider>
+                    <ColourSlider colour={this.state.colour} colourName={"b"} updateColour={this.adjustSlider}></ColourSlider>
                     <div className={"complement"}>
-                        <div className={"complement-color"} style={{background: hsvaToHex(this.state.hsva)}}/>
+                        <div className={"complement-color"} style={{background: rgbaToHex(this.state.colour)}}/>
 
                         <div className={"swap"}/>
                     </div>
@@ -57,13 +49,13 @@ export class ColorPicker extends React.Component<props, state> {
                 <div>
                     <Wheel
                         className={"wheel"}
-                        color={this.state.hsva}
-                        onChange={(color) => { this.setState({hsva: color.hsva}) }}
+                        color={rgbaToHsva(this.state.colour)}
+                        onChange={(colour: ColorResult) => { this.setState({colour: colour.rgba}) }}
                         width={200}
                         height={200}
                     />
                 </div>
             </div>
         )
-    }
-}
+}  
+}  
