@@ -1,0 +1,57 @@
+.block {
+  width: 75px;
+  height: 200px;
+}
+
+.complement {
+  display: flex;
+  align-items: flex-start;
+  width: 200px;
+  height: 40px;
+  margin-left: 15px;
+  margin-top: 35px;
+}
+
+.complement-color {
+  width: 100px;
+  height: 40px;
+  margin-left: 30px;
+}
+
+.swap {
+  background: gray;
+  width: 40px;
+  height: 40px;
+}
+
+.colorPicker {
+  display: flex;
+}
+
+.display {
+  display: block;
+  align-items: flex-start;
+  width: 400px;
+  height: 200px;
+  background: lightgrey;
+}
+
+.wheel {
+  position: absolute;
+  right: 100px;
+}
+
+.slider {
+  margin-left: 15px;
+  margin-top: 5px;
+  display: block !important;
+  width: 230px !important;
+}
+
+.label {
+  margin-left: 10px;
+  width: 20px;
+  height: 40px;
+  background: lightgrey;
+  color: black;
+}
