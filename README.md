@@ -37,14 +37,30 @@ This is a list of tasks that need to be completed. They are probably going to ra
 
 - Expanding menu drawer (Ella)
   - expand the menu by clicking on a button in the top right
-  - have 3 tabs in the menu
-    - Colours
-    - Palette
-    - Images
+  - create 3 tabs that are able to switch between components
+    - Make sure they have the right names
+  - Be able to close the tab when you click outside of the menu
+
+- Colours History component (Dmitry)
+  - Have all of the history of colours passed into it display in a grid on the screen
+    - this will probably be a list of colours passed into the component through the prop
+  - be able to click on a colour to select it
+  - have a maximum number of colours
+  - scroll bar
+  - Have pinned colours at the top? (maybe)
+
+- Palette History component
+  - Display all of the palettes that we have made
+    - again, passed in through props, will probably have to make a palette obj that has 6(?) colours
+  - be able to select palettes and swap to it
+  - max number of palettes
+  - scroll bar
+  - pinned palette?
+
+- Image History component
   - Be able to fetch the images to display in the image tab
   - Be able to load images to the image tab when selected
-  - Change active colour by selecting a colour in the colour tab
-  - load a palette when selecting one
+  - history, scrollbar, pinned images?
 
 - State management
   - Figure out how to save and load information about colours to and from jsons
