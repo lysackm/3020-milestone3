@@ -4,6 +4,8 @@ import {Wheel} from "@uiw/react-color";
 import "./ColorPicker.css"
 import { ColourSlider } from "./ColourSlider";
 import { TextField } from "@mui/material";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 interface props {}
 
@@ -78,6 +80,7 @@ export class ColourPicker extends React.Component<props, state> {
         let hsva = this.state.colour
 
         let num: number = +value.replaceAll(/[^0-9]/g, "")
+        num = Math.round(num)
         
         if(className && className.indexOf("rgb") > -1){
             let rgba = hsvaToRgba(hsva)
@@ -101,6 +104,10 @@ export class ColourPicker extends React.Component<props, state> {
             hsva = hslaToHsva(hsla)
         }
         this.setState({colour: hsva})
+    }
+
+    clipboard = () => {
+        navigator.clipboard.writeText(hsvaToHex(this.state.colour))
     }
 
     render() {
@@ -132,8 +139,8 @@ export class ColourPicker extends React.Component<props, state> {
                             </>
                         }   
                         {this.state.mode === 2 &&
-                            <>
-                                <div>
+                            <div>
+                                <div className={"details"}>
                                     <TextField
                                         label={"Red"}
                                         className={"numberInput"}
@@ -159,7 +166,7 @@ export class ColourPicker extends React.Component<props, state> {
                                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
                                     />
                                 </div>
-                                <div>
+                                <div className={"details"}>
                                     <TextField
                                         label={"Hue"}
                                         className={"numberInput"}
@@ -172,7 +179,7 @@ export class ColourPicker extends React.Component<props, state> {
                                         label={"Saturation"}
                                         className={"numberInput"}
                                         size={"small"}
-                                        value={hsvaToHsla(this.state.colour).s}
+                                        value={Math.round(hsvaToHsla(this.state.colour).s)}
                                         onChange={(e) => {this.handleNumberInput(e.target.value, "hsl saturation")}}
                                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
                                     />
@@ -180,20 +187,22 @@ export class ColourPicker extends React.Component<props, state> {
                                         label={"Lightness"}
                                         className={"numberInput"}
                                         size={"small"}
-                                        value={hsvaToHsla(this.state.colour).l}
+                                        value={Math.round(hsvaToHsla(this.state.colour).l)}
                                         onChange={(e) => {this.handleNumberInput(e.target.value, "hsl lightness")}}
                                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
                                     />
                                 </div>
-                                <div>
+                                <div className={"hexCode"}>
                                     Hex Code: {hsvaToHex(this.state.colour)}
+                                    <ContentCopyIcon style={{ color: "black", marginLeft: "10px"}} onClick={this.clipboard}/>
                                 </div>
-                            </>
+                            </div>
                         }
                         <div className={"complement"}>
                             <div className={"complement-color"} style={{background: hsvaToHex(this.calculateComplement())}}/>
-
-                            <div className={"swap"} onClick={this.swapToComplement}/>
+                            <div className={"swap"} onClick={this.swapToComplement}>
+                                <SwapHorizIcon fontSize="large" style={{color: 'black'}}/>
+                            </div>
                         </div>
                     </div>
                     <div>

@@ -31,7 +31,7 @@
 .display {
   display: block;
   align-items: flex-start;
-  width: 400px;
+  width: 450px;
   height: 200px;
   background: lightgrey;
 }
@@ -45,7 +45,7 @@
   margin-left: 50px;
   margin-top: 5px;
   display: block !important;
-  width: 200px !important;
+  width: 250px !important;
 }
 
 .label {
@@ -83,4 +83,16 @@
   max-width: 90px;
   max-height: 10px;
   font-size: 8px;
+}
+
+.hexCode {
+  color: black;
+  display: flex;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.details {
+  display: flex;
+  align-items: flex-start;
 }
