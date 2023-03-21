@@ -3,6 +3,7 @@ import logo from './assets/logo.svg';
 import './App.css';
 import { MyFirstComponent } from './components/MyFirstComponent';
 import { ColourPicker} from "./components/ColorPicker/ColourPicker";
+import { ImageArea } from "./components/ImageArea/ImageArea"
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         {/* this is how you add your component to other things */}
         <MyFirstComponent showButton={true}></MyFirstComponent>
         <ColourPicker></ColourPicker>
+        <ImageArea></ImageArea>
       </header>
     </div>
   );
