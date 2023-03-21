@@ -3,6 +3,7 @@ import {RgbaColor} from "@uiw/color-convert";
 import Konva from "konva";
 import {Stage, Layer, Image, Line} from 'react-konva';
 import "./ImageArea.css";
+import logo from "../../assets/image.jpg"
 
 interface props {}
 
@@ -77,6 +78,12 @@ export class ImageArea extends React.Component<props, state> {
   }
 
   handleMouseUp = () => {
-    
+
+  }
+  
+  render() {
+      return (
+        <img src={logo} alt="your picture"/>
+      )
   }
 }

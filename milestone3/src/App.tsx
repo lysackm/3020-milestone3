@@ -9,6 +9,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+      <ImageArea></ImageArea>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -24,7 +25,6 @@ function App() {
         {/* this is how you add your component to other things */}
         <MyFirstComponent showButton={true}></MyFirstComponent>
         <ColourPicker></ColourPicker>
-        <ImageArea></ImageArea>
       </header>
     </div>
   );
