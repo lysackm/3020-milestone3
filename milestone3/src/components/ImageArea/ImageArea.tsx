@@ -78,12 +78,50 @@ export class ImageArea extends React.Component<props, state> {
   }
 
   handleMouseUp = () => {
-
+    this.setState({
+      isDrawing: false
+    });
   }
   
   render() {
-      return (
-        <img src={logo} alt="your picture"/>
-      )
-  }
+    const { colour, lines } = this.state;
+    return (
+      <div className="image-area">
+        <Stage width={800} height={600}>
+          <Layer ref={this.layerRef}>
+            <Image ref={this.imageRef} image="/images/image.png" />
+            {lines.map((line, i) => (
+              <Line
+                key={i}
+                ref={this.lineRef}
+                points={line.points}
+                stroke={line.stroke}
+                strokeWidth={line.strokeWidth}
+                tension={0.5}
+                lineCap="round"
+                lineJoin="round"
+              />
+            ))}
+          </Layer>
+          <Layer>
+            <Line
+              ref={this.lineRef}
+              points={[]}
+              stroke={`rgba(${colour.r},${colour.g},${colour.b},${colour.a})`}
+              strokeWidth={5}
+              tension={0.5}
+              lineCap="round"
+              lineJoin="round"
+              globalCompositeOperation={
+                this.state.isDrawing ? 'source-over' : 'destination-out'
+              }
+              onMouseDown={this.handleMouseDown}
+              onMousemove={this.handleMouseMove}
+              onMouseup={this.handleMouseUp}
+            />
+          </Layer>
+        </Stage>
+      </div>
+     );
+    }
 }
