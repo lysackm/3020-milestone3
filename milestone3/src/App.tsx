@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './assets/logo.svg';
 import './App.css';
 import { MyFirstComponent } from './components/MyFirstComponent';
+import { Palette } from "./components/PaletteAndBrush/Palette";
 import { ColourPicker} from "./components/ColorPicker/ColourPicker";
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
         </a>
         {/* this is how you add your component to other things */}
         <MyFirstComponent showButton={true}></MyFirstComponent>
-        <ColourPicker></ColourPicker>
+        <Palette> </Palette>
+        <ColourPicker> </ColourPicker>
       </header>
     </div>
   );
