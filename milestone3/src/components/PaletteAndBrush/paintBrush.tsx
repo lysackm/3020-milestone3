@@ -16,7 +16,7 @@ interface state {
 }
 
 
-export class MyFirstComponent extends React.Component<props, state> {
+export class PaintBrush extends React.Component<props, state> {
     // I am a constructor. You have to always call super(props)
     // You also have to initalize the state here
     // You can do other stuff here too

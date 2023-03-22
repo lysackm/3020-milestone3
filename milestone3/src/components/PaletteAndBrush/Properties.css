@@ -2,6 +2,43 @@
     /* position: absolute; */
     /* right: 100px; */
     /* color: white; */
-    height: 200px;
-    width: 200px;
-  }
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+}
+
+.colour1 {
+  left: 200px;
+  bottom: 200px;
+}
+
+.colour2 {
+  left: 500px;
+  bottom: 300px;
+}
+
+.colour3 {
+  left: 300px;
+  bottom: 500px;
+}
+
+.colour4 {
+  left: 400px;
+  bottom: 400px;
+}
+
+.colour5 {
+  left: 500px;
+  bottom: 500px;
+}
+
+.colour6 {
+  left: 600px;
+  bottom: 300px;
+}

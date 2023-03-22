@@ -7,14 +7,14 @@ import "./Properties.css"
 // import { HsvaColor, ColorResult } from '@uiw/color-convert';
 // import { SwatchProps } from '@uiw/react-color-swatch';
 import {HslaColor, hslaToHsva, hsvaToHsla, hsvaToRgba, rgbaToHsva, Wheel} from "@uiw/react-color";
-import {ColorResult, RgbaColor, rgbaToHex} from "@uiw/color-convert";
+import {ColorResult, HsvaColor, hsvaToHex, RgbaColor, rgbaToHex} from "@uiw/color-convert";
 import palette from '../../assets/palette.png';
 
 // this is a props interface that is variables that are passed into the 
 // component
 // think of this as outside state
 interface props {
-    //showButton: boolean
+    colours: HsvaColor[]
 }
 
 // this is the state that you need inside of this component ONLY
@@ -50,6 +50,9 @@ handleColorChange = (color: any) => {
     //     console.log("I am printing something sudo random ")
     // }
 
+    onClick = () => {
+        console.log("Change colour here")
+    }
 
     // functions are declared like this
     // funcName = () => {}
@@ -75,19 +78,18 @@ handleColorChange = (color: any) => {
                         {/* onClick is a default thing, when you click this button, call the function */}
                         {/* Hey this is using a string object as text, this is very useful! */}
                         {/* <button onClick={this.onClick}>{this.state.buttonText}</button> */}
-                        {/* <img src ={palette}>
-                            <Circle 
-                            color={rgbaToHsva(this.state.colour)}
-                            onChange={(colour: ColorResult) => { this.setState({colour: colour.rgba}) }}
-                            />
-                            {/* <Circle/> 
-                        </img>  */}
+                        <div className="container">
+                            <img src ={palette} alt="art palette"/>
 
-                        <Circle
-                        className={"circle"}
-                        color = {'#F44E3B'}
-                        onChange = {this.handleColorChange} 
-                        />
+                            <div 
+                                className={"colour1 circle"} 
+                                style={{backgroundColor: hsvaToHex(this.props.colours[0])}}
+                                onClick={this.onClick}/>
+
+                            <div className={"circle colour2"} style={{backgroundColor: hsvaToHex(this.props.colours[1])}}/>
+                            <div className={"circle colour3"} style={{backgroundColor: hsvaToHex(this.props.colours[2])}}/>
+                            <div className={"circle colour4"} style={{backgroundColor: hsvaToHex(this.props.colours[3])}}/>
+                        </div>
                         
                     </div>
                 }
