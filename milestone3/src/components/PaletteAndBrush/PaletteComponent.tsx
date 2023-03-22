@@ -1,13 +1,6 @@
-// if you need to add libraries add it like this
-// most libraries are kept in node_modules
-// to add libraries you need to add it to the package.json and then recompile the project
 import React from "react";
-import Circle from '@uiw/react-color-circle';
 import "./Properties.css"
-// import { HsvaColor, ColorResult } from '@uiw/color-convert';
-// import { SwatchProps } from '@uiw/react-color-swatch';
-import {HslaColor, hslaToHsva, hsvaToHsla, hsvaToRgba, rgbaToHsva, Wheel} from "@uiw/react-color";
-import {ColorResult, HsvaColor, hsvaToHex, RgbaColor, rgbaToHex} from "@uiw/color-convert";
+import {HsvaColor, hsvaToHex, RgbaColor} from "@uiw/color-convert";
 import palette from '../../assets/palette.png';
 
 // this is a props interface that is variables that are passed into the 
@@ -24,9 +17,6 @@ interface state {
 
 
 export class Palette extends React.Component<props, state> {
-    // I am a constructor. You have to always call super(props)
-    // You also have to initalize the state here
-    // You can do other stuff here too
     constructor(props: props) {
         super(props)
         this.state = {
@@ -34,9 +24,9 @@ export class Palette extends React.Component<props, state> {
         }
     }
 
-handleColorChange = (color: any) => {
-        this.setState({ colour: color.hex });
-}
+    handleColorChange = (color: any) => {
+            this.setState({ colour: color.hex });
+    }
     
 
     // I am a function
@@ -84,7 +74,8 @@ handleColorChange = (color: any) => {
                             <div 
                                 className={"colour1 circle"} 
                                 style={{backgroundColor: hsvaToHex(this.props.colours[0])}}
-                                onClick={this.onClick}/>
+                                onClick={this.onClick}
+                            />
 
                             <div className={"circle colour2"} style={{backgroundColor: hsvaToHex(this.props.colours[1])}}/>
                             <div className={"circle colour3"} style={{backgroundColor: hsvaToHex(this.props.colours[2])}}/>

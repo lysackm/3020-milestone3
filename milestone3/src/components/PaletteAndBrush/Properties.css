@@ -4,8 +4,19 @@
     /* color: white; */
     height: 80px;
     width: 80px;
+    margin: 0px;
     border-radius: 50%;
     position: absolute;
+    align-self: center;
+}
+
+.circle:hover {
+  height: 100px;
+  width: 100px;
+  margin: -10px;
+  border-radius: 50%;
+  position: absolute;
+  align-self: center;
 }
 
 .container {
