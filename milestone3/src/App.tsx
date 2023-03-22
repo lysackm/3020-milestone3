@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './assets/logo.svg';
 import './App.css';
 import { MyFirstComponent } from './components/MyFirstComponent';
-import { Palette } from "./components/PaletteAndBrush/Palette";
+import { Palette } from "./components/PaletteAndBrush/PaletteComponent";
 import { ColourPicker} from "./components/ColorPicker/ColourPicker";
 
 function App() {

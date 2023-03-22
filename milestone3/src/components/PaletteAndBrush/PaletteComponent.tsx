@@ -3,8 +3,10 @@
 // to add libraries you need to add it to the package.json and then recompile the project
 import React from "react";
 import Circle from '@uiw/react-color-circle';
+import "./Properties.css"
 // import { HsvaColor, ColorResult } from '@uiw/color-convert';
 // import { SwatchProps } from '@uiw/react-color-swatch';
+import {HslaColor, hslaToHsva, hsvaToHsla, hsvaToRgba, rgbaToHsva, Wheel} from "@uiw/react-color";
 import {ColorResult, RgbaColor, rgbaToHex} from "@uiw/color-convert";
 import palette from '../../assets/palette.png';
 
@@ -31,6 +33,11 @@ export class Palette extends React.Component<props, state> {
             colour: { r: 150, g: 75, b: 0, a: 1}
         }
     }
+
+handleColorChange = (color: any) => {
+        this.setState({ colour: color.hex });
+}
+    
 
     // I am a function
     // you can put code in me and I will run when you call me in an 
@@ -68,16 +75,19 @@ export class Palette extends React.Component<props, state> {
                         {/* onClick is a default thing, when you click this button, call the function */}
                         {/* Hey this is using a string object as text, this is very useful! */}
                         {/* <button onClick={this.onClick}>{this.state.buttonText}</button> */}
-                        <img src ={palette}>
-                            {/* <Circle
-                            //colors={['#F44E3B']}
-                            color ={'#F44E3B'}
-                            // onChange={(color) => {
-                            //   setHex(color.hex);
-                            // }}
-                            /> */}
-                            {/* <Circle/> */}
-                        </img> 
+                        {/* <img src ={palette}>
+                            <Circle 
+                            color={rgbaToHsva(this.state.colour)}
+                            onChange={(colour: ColorResult) => { this.setState({colour: colour.rgba}) }}
+                            />
+                            {/* <Circle/> 
+                        </img>  */}
+
+                        <Circle
+                        className={"circle"}
+                        color = {'#F44E3B'}
+                        onChange = {this.handleColorChange} 
+                        />
                         
                     </div>
                 }
