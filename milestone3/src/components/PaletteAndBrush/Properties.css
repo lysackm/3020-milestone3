@@ -57,3 +57,25 @@
   left: 335%;
   bottom: -226%;
 }
+
+/* PAINT BRUSH CSS STARTS HERE */
+.BrushContainer {
+  position: relative;
+  text-align: center;
+  width: 100px;
+  height: 100px;
+  left: 250px;
+  bottom: -20px;
+}
+
+.BrushTip {
+  height: 25%; 
+  width: 25%;
+  margin: 0%;
+  left: 19%;
+  bottom: 62%;
+  transform: rotate(-10deg);
+  position: absolute;
+  align-self: center;
+  border-radius : 50% / 10%;
+}

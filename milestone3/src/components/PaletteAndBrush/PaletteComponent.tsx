@@ -1,7 +1,6 @@
 import React from "react";
 import "./Properties.css"
-import {HsvaColor, hsvaToHex, RgbaColor} from "@uiw/color-convert";
-import {rgbaToHsva} from "@uiw/react-color";
+import {HsvaColor, hsvaToHex} from "@uiw/color-convert";
 import palette from '../../assets/palette.png';
 
 // this is a props interface that is variables that are passed into the 
