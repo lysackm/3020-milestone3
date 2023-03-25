@@ -26,7 +26,7 @@ function App() {
         </a>
         {/* this is how you add your component to other things */}
         <MyFirstComponent showButton={true}></MyFirstComponent>
-        <Palette colours={colours}/>
+        <Palette colour = {colours[2]} colours={colours}/>
         <ColourPicker> </ColourPicker>
       </header>
     </div>

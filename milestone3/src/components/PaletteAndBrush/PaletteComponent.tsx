@@ -1,18 +1,20 @@
 import React from "react";
 import "./Properties.css"
 import {HsvaColor, hsvaToHex, RgbaColor} from "@uiw/color-convert";
+import {rgbaToHsva} from "@uiw/react-color";
 import palette from '../../assets/palette.png';
 
 // this is a props interface that is variables that are passed into the 
 // component
 // think of this as outside state
 interface props {
+    colour: HsvaColor
     colours: HsvaColor[]
 }
 
 // this is the state that you need inside of this component ONLY
 interface state {
-    colour: RgbaColor
+    colors: HsvaColor[]
 }
 
 
@@ -20,28 +22,27 @@ export class Palette extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
         this.state = {
-            colour: { r: 150, g: 75, b: 0, a: 1}
+            colors: this.props.colours
         }
     }
 
-    handleColorChange = (color: any) => {
-            this.setState({ colour: color.hex });
-    }
+    // handleColorChange = (color: any) => {
+    //         this.setState({ colour: color.hex });
+    // }
     
 
-    // I am a function
-    // you can put code in me and I will run when you call me in an 
-    // typescript code block in the render block
-    // onChange = () => {
-    //     this.setState({buttonText: "I have been pressed!"})
-    //     // console.log() is javascript version of print statements
-    //     // to see the console logs, go to a webpage, right click, click inspect element (or F12) to open dev tools
-    //     // then you can go to the console tab to see what is printed out
-    //     console.log("I am printing something sudo random ")
-    // }
-
-    onClick = () => {
+    onClick = (color: number) => (event: React.MouseEvent<HTMLDivElement>) =>{
         console.log("Change colour here")
+        // //get array val and change
+        // Create a new copy of the colors array
+        const newColors = [...this.props.colours];
+        // Update the color at the specified index
+        newColors[color] = this.props.colour;
+        // Update the state with the new colors array
+        this.setState({ colors: newColors });
+
+        const clickedElement = event.currentTarget;
+        clickedElement.style.backgroundColor = hsvaToHex(this.state.colors[color]);
     }
 
     // functions are declared like this
@@ -69,17 +70,20 @@ export class Palette extends React.Component<props, state> {
                         {/* Hey this is using a string object as text, this is very useful! */}
                         {/* <button onClick={this.onClick}>{this.state.buttonText}</button> */}
                         <div className="container">
-                            <img src ={palette} alt="art palette"/>
+                            <img src ={palette} alt="art palette" width= "465%" height ="465%"/>
 
                             <div 
+                                key = {0}
                                 className={"colour1 circle"} 
                                 style={{backgroundColor: hsvaToHex(this.props.colours[0])}}
-                                onClick={this.onClick}
+                                onClick ={this.onClick(0)}
                             />
 
                             <div className={"circle colour2"} style={{backgroundColor: hsvaToHex(this.props.colours[1])}}/>
                             <div className={"circle colour3"} style={{backgroundColor: hsvaToHex(this.props.colours[2])}}/>
                             <div className={"circle colour4"} style={{backgroundColor: hsvaToHex(this.props.colours[3])}}/>
+                            <div className={"circle colour5"} style={{backgroundColor: hsvaToHex(this.props.colours[4])}}/>
+                            <div className={"circle colour6"} style={{backgroundColor: hsvaToHex(this.props.colours[5])}}/>
                         </div>
                         
                     </div>

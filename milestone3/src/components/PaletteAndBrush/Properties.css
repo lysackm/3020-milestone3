@@ -2,18 +2,18 @@
     /* position: absolute; */
     /* right: 100px; */
     /* color: white; */
-    height: 80px;
-    width: 80px;
-    margin: 0px;
+    height: 75%;
+    width: 75%;
+    margin: 0%;
     border-radius: 50%;
     position: absolute;
     align-self: center;
 }
 
 .circle:hover {
-  height: 100px;
-  width: 100px;
-  margin: -10px;
+  height: 80%;
+  width: 80%;
+  margin: -4%;
   border-radius: 50%;
   position: absolute;
   align-self: center;
@@ -22,34 +22,38 @@
 .container {
   position: relative;
   text-align: center;
+  width: 50px;
+  height: 50px;
+  left: 300px;
+  bottom: -20px;
 }
 
 .colour1 {
-  left: 200px;
-  bottom: 200px;
+  left: 60%;
+  bottom: -170%;
 }
 
 .colour2 {
-  left: 500px;
-  bottom: 300px;
+  left: 85%;
+  bottom: -78%;
 }
 
 .colour3 {
-  left: 300px;
-  bottom: 500px;
+  left: 160%;
+  bottom: -14%;
 }
 
 .colour4 {
-  left: 400px;
-  bottom: 400px;
+  left: 260%;
+  bottom: -50%;
 }
 
 .colour5 {
-  left: 500px;
-  bottom: 500px;
+  left: 315%;
+  bottom: -134%;
 }
 
 .colour6 {
-  left: 600px;
-  bottom: 300px;
+  left: 335%;
+  bottom: -226%;
 }
