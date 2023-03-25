@@ -7,10 +7,12 @@ import { TextField } from "@mui/material";
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
-interface props {}
+interface props {
+    changeColour: (colour: HsvaColor) => void,
+    colour: HsvaColor
+}
 
 interface state {
-    colour: HsvaColor
     mode: number
 }
 
@@ -18,13 +20,12 @@ export class ColourPicker extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
         this.state = {
-            colour: { h: 0, s: 0, v: 100, a: 1},
             mode: 1
         }  
     }
 
     calculateComplement = () => {
-        let hsva: HsvaColor = this.state.colour
+        let hsva: HsvaColor = this.props.colour
 
         hsva = { ...hsva, h: (hsva.h + 180) % 360 }
         
@@ -32,7 +33,7 @@ export class ColourPicker extends React.Component<props, state> {
     }
 
     getWheelColour = () => {
-        let hsva: HsvaColor = this.state.colour
+        let hsva: HsvaColor = this.props.colour
 
         hsva = { ...hsva, v: 100}
         
@@ -41,28 +42,28 @@ export class ColourPicker extends React.Component<props, state> {
 
     setWheelColour = (colour: ColorResult) => {
         let hsva: HsvaColor = colour.hsva
-        let value = this.state.colour.v
+        let value = this.props.colour.v
         hsva = { ...hsva, v: value}
 
-        this.setState({colour: hsva})
+        this.props.changeColour(hsva)
     }
 
     swapToComplement = () => {
-        this.setState({colour: this.calculateComplement()})
+        this.props.changeColour(this.calculateComplement())
     }
 
     adjustSlider = (value: number, sliderColour: string) => {
-        let newColour = this.state.colour
+        let newColour = this.props.colour
 
         if(sliderColour === 'h'){
-            newColour = { ...this.state.colour, h: value}
+            newColour = { ...this.props.colour, h: value}
         }else if(sliderColour === 's'){
-            newColour = { ...this.state.colour, s: value}
+            newColour = { ...this.props.colour, s: value}
         }else if(sliderColour === 'v'){
-            newColour = { ...this.state.colour, v: value}
+            newColour = { ...this.props.colour, v: value}
         }
 
-        this.setState({colour: newColour})
+        this.props.changeColour(newColour)
     }
 
     tabColour = (tabNum: number) => {
@@ -77,7 +78,7 @@ export class ColourPicker extends React.Component<props, state> {
     }
 
     handleNumberInput = (value: string, className: string) => {
-        let hsva = this.state.colour
+        let hsva = this.props.colour
 
         let num: number = +value.replaceAll(/[^0-9]/g, "")
         num = Math.round(num)
@@ -103,35 +104,35 @@ export class ColourPicker extends React.Component<props, state> {
             }
             hsva = hslaToHsva(hsla)
         }
-        this.setState({colour: hsva})
+        this.props.changeColour(hsva)
     }
 
     clipboard = () => {
-        navigator.clipboard.writeText(hsvaToHex(this.state.colour))
+        navigator.clipboard.writeText(hsvaToHex(this.props.colour))
     }
 
     render() {
         return (
             <div>
                 <div className={"colorPicker"}>
-                    <div className={"block"} style={{background: hsvaToHex(this.state.colour)}}/>
+                    <div className={"block"} style={{background: hsvaToHex(this.props.colour)}}/>
                     <div className={"display"}>
                         {this.state.mode === 1 && 
                             <>
                                 <ColourSlider 
-                                    colour={this.state.colour} 
+                                    colour={this.props.colour} 
                                     colourName={"h"} 
                                     updateColour={this.adjustSlider}
                                     max={360}
                                 />
                                 <ColourSlider 
-                                    colour={this.state.colour} 
+                                    colour={this.props.colour} 
                                     colourName={"s"} 
                                     updateColour={this.adjustSlider} 
                                     max={100}
                                 />
                                 <ColourSlider 
-                                    colour={this.state.colour} 
+                                    colour={this.props.colour} 
                                     colourName={"v"} 
                                     updateColour={this.adjustSlider} 
                                     max={100}
@@ -145,7 +146,7 @@ export class ColourPicker extends React.Component<props, state> {
                                         label={"Red"}
                                         className={"numberInput"}
                                         size={"small"}
-                                        value={hsvaToRgba(this.state.colour).r}
+                                        value={hsvaToRgba(this.props.colour).r}
                                         onChange={(e) => {this.handleNumberInput(e.target.value, "rgb red")}}
                                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
                                     />
@@ -153,7 +154,7 @@ export class ColourPicker extends React.Component<props, state> {
                                         label={"Green"}
                                         className={"numberInput"}
                                         size={"small"}
-                                        value={hsvaToRgba(this.state.colour).g}
+                                        value={hsvaToRgba(this.props.colour).g}
                                         onChange={(e) => {this.handleNumberInput(e.target.value, "rgb green")}}
                                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
                                     />
@@ -161,7 +162,7 @@ export class ColourPicker extends React.Component<props, state> {
                                         label={"Blue"}
                                         className={"numberInput"}
                                         size={"small"}
-                                        value={hsvaToRgba(this.state.colour).b}
+                                        value={hsvaToRgba(this.props.colour).b}
                                         onChange={(e) => {this.handleNumberInput(e.target.value, "rgb blue")}}
                                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
                                     />
@@ -171,7 +172,7 @@ export class ColourPicker extends React.Component<props, state> {
                                         label={"Hue"}
                                         className={"numberInput"}
                                         size={"small"}
-                                        value={hsvaToHsla(this.state.colour).h}
+                                        value={hsvaToHsla(this.props.colour).h}
                                         onChange={(e) => {this.handleNumberInput(e.target.value, "hsl hue")}}
                                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
                                     />
@@ -179,7 +180,7 @@ export class ColourPicker extends React.Component<props, state> {
                                         label={"Saturation"}
                                         className={"numberInput"}
                                         size={"small"}
-                                        value={Math.round(hsvaToHsla(this.state.colour).s)}
+                                        value={Math.round(hsvaToHsla(this.props.colour).s)}
                                         onChange={(e) => {this.handleNumberInput(e.target.value, "hsl saturation")}}
                                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
                                     />
@@ -187,13 +188,13 @@ export class ColourPicker extends React.Component<props, state> {
                                         label={"Lightness"}
                                         className={"numberInput"}
                                         size={"small"}
-                                        value={Math.round(hsvaToHsla(this.state.colour).l)}
+                                        value={Math.round(hsvaToHsla(this.props.colour).l)}
                                         onChange={(e) => {this.handleNumberInput(e.target.value, "hsl lightness")}}
                                         inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
                                     />
                                 </div>
                                 <div className={"hexCode"}>
-                                    Hex Code: {hsvaToHex(this.state.colour)}
+                                    Hex Code: {hsvaToHex(this.props.colour)}
                                     <ContentCopyIcon style={{ color: "black", marginLeft: "10px"}} onClick={this.clipboard}/>
                                 </div>
                             </div>
