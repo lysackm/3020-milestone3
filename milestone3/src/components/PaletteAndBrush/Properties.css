@@ -68,20 +68,24 @@
 .BrushContainer {
   position: relative;
   text-align: center;
-  width: 100px;
-  height: 100px;
-  left: 250px;
-  bottom: -20px;
+  width: 14%;
+  height: 16%;
+  left: 95%;
+  bottom: 225px;
 }
 
 .BrushTip {
-  height: 25%; 
+  height: 12%; 
   width: 25%;
   margin: 0%;
   left: 19%;
-  bottom: 62%;
+  bottom: 81%;
   transform: rotate(-10deg);
   position: absolute;
   align-self: center;
   border-radius : 50% / 10%;
+}
+
+.paintBrushImg {
+  object-fit: fill;
 }

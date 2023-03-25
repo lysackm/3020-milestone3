@@ -37,7 +37,12 @@ export class PaintBrush extends React.Component<props, state> {
                     // div is a division. Think of this as a box that holds stuff
                     <div className={"BrushContainer"} > 
                         
-                        <img src ={paintBrush} alt="paint brush" width= "90%" height ="200%"/>
+                        <img 
+                            className="paintBrushImg"
+                            src ={paintBrush} 
+                            alt="paint brush" 
+                            width= "90%" height ="200%"
+                            />
                         <div   
                             className={"BrushTip"} 
                             style={{backgroundColor: hsvaToHex(this.props.colour)}}
