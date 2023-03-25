@@ -1,127 +1,80 @@
-import React from 'react';
-import {RgbaColor} from "@uiw/color-convert";
-import Konva from "konva";
-import {Stage, Layer, Image, Line} from 'react-konva';
-import "./ImageArea.css";
-import logo from "../../assets/image.jpg"
+import React, { Component } from 'react';
+import { RgbaColor } from '@uiw/color-convert';
+import './ImageArea.css';
+import logo from '../../assets/image.jpg';
+import paper, { Path, Tool, Color } from 'paper';
 
-interface props {}
+interface Props {}
 
-interface state {
-  isDrawing: boolean,
-  colour: RgbaColor
-  lines: Array<any>
+interface State {
+  color: RgbaColor;
 }
 
-export class ImageArea extends React.Component<props, state> {
-  private imageRef: any;
-  private layerRef: any;
-  private lineRef: any;
+export class ImageArea extends Component<Props, State> {
+  private canvasRef: React.RefObject<HTMLCanvasElement>;
+  private path: Path | null;
+  private tool: Tool;
 
-  constructor (props: props) {
-    super(props)
+  constructor(props: Props) {
+    super(props);
+
     this.state = {
-      isDrawing: false,
-      colour: {r:0, g:0, b:0, a:1},
-      lines: []
-    }
-
-    this.imageRef = React.createRef;
-    this.layerRef = React.createRef;
-    this.lineRef = React.createRef;
-  }
-
-  //Load image
-  componentDidMount() {
-    const image = new window.Image();
-    image.src = 'assets/image.jpg';
-    image.onload = () => {
-      this.imageRef.current.getLayer().batchDraw();
-    }
-  }
-
-  //Drawing Functions
-  handleMouseDown = () => {
-    this.setState({
-      isDrawing: true
-    });
-
-    const stage = this.layerRef.current.getStage();
-    const point = stage.getPointerPosition();
-    const newLine = {
-      stroke: 'rgba(${colour.r}, ${colour.g}, ${colour.b}, ${colour.a})',
-      strokeWidth: 5,
-      points: [point.x, point.y]
+      color: { r: 0, g: 0, b: 0, a: 0 },
     };
 
-    this.setState({
-      lines: [...this.state.lines, newLine]
-    });
+    this.canvasRef = React.createRef<HTMLCanvasElement>();
+    this.path = null;
+    this.tool = new paper.Tool();
   }
 
-  handleMouseMove = () => {
-    if(!this.state.isDrawing) {
-      return
-    } 
-    else {
-      const stage = this.layerRef.current.getStage();
-      const point = stage.getPointerPosition();
-      let {lines} = this.state;
-      let lastLine = lines[lines.length - 1];
-      lastLine.points = lastLine.points.concat([point.x, point.y]);
+  // Load Image
+  componentDidMount() {
+    const canvas = this.canvasRef.current!;
+    paper.setup(canvas);
 
-      lines.splice(lines.length-1, 1, lastLine);
-      this.setState({
-        lines: lines
+    const raster = new paper.Raster(logo);
+    raster.onLoad = () => {
+      raster.position = paper.view.center;
+    };
+
+    // Drawing Functions
+    this.tool.onMouseDown = (event: paper.MouseEvent) => {
+      this.path = new paper.Path({
+        segments: [event.point],
+        strokeColor: this.state.color as Color,
+        strokeWidth: 4,
+        strokeCap: 'round',
+        strokeJoin: 'round',
       });
-    }
+    };
+
+    this.tool.onMouseDrag = (event: paper.MouseEvent) => {
+      if (this.path) {
+        this.path.add(event.point);
+      }
+    };
   }
 
-  handleMouseUp = () => {
-    this.setState({
-      isDrawing: false
-    });
+  setColor(color: RgbaColor) {
+    this.setState({ color });
   }
-  
+
   render() {
-    const { colour, lines } = this.state;
     return (
-      <div className="image-area">
-        <Stage width={800} height={600}>
-          <Layer ref={this.layerRef}>
-            <Image ref={this.imageRef} image="/images/image.png" />
-            {lines.map((line, i) => (
-              <Line
-                key={i}
-                ref={this.lineRef}
-                points={line.points}
-                stroke={line.stroke}
-                strokeWidth={line.strokeWidth}
-                tension={0.5}
-                lineCap="round"
-                lineJoin="round"
-              />
-            ))}
-          </Layer>
-          <Layer>
-            <Line
-              ref={this.lineRef}
-              points={[]}
-              stroke={`rgba(${colour.r},${colour.g},${colour.b},${colour.a})`}
-              strokeWidth={5}
-              tension={0.5}
-              lineCap="round"
-              lineJoin="round"
-              globalCompositeOperation={
-                this.state.isDrawing ? 'source-over' : 'destination-out'
-              }
-              onMouseDown={this.handleMouseDown}
-              onMousemove={this.handleMouseMove}
-              onMouseup={this.handleMouseUp}
-            />
-          </Layer>
-        </Stage>
+      <div className="ImageArea">
+        <canvas ref={this.canvasRef} />
+        <div className="color-picker">
+          <div
+            className="color-swatch"
+            style={{ backgroundColor: `rgba(${this.state.color.r},${this.state.color.g},${this.state.color.b},${this.state.color.a})` }}
+          />
+          <input
+            type="color"
+            value={`#${this.state.color.r.toString(16).padStart(2, '0')}${this.state.color.g.toString(16).padStart(2, '0')}${this.state.color.b.toString(16).padStart(2, '0')}${this.state.color.a.toString(16).padStart(2, '0')}`}
+            onChange={(e) => this.setColor(Color.parse(e.target.value))}
+          />
+        </div>
       </div>
-     );
-    }
+    );
+  }
 }
