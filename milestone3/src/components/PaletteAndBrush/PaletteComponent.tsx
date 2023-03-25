@@ -9,11 +9,11 @@ import palette from '../../assets/palette.png';
 interface props {
     colour: HsvaColor
     colours: HsvaColor[]
+    changeColour: (colour: HsvaColor) => void
 }
 
 // this is the state that you need inside of this component ONLY
 interface state {
-    colors: HsvaColor[]
 }
 
 
@@ -21,25 +21,26 @@ export class Palette extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
         this.state = {
-            colors: this.props.colours
         }
     }
 
-    handleColorChange = (color: any) => {
-        // Create a new copy of the colors array
-        const newColors = [...this.state.colors];
-        // Update the color at the specified index
-        newColors[color] = this.props.colour;
-        // Update the state with the new colors array
-        this.setState({ colors: newColors });
-    }
+    // handleColorChange = (color: any) => {
+    //         this.setState({ colour: color.hex });
+    // }
     
 
     onClick = (color: number) => (event: React.MouseEvent<HTMLDivElement>) =>{
         console.log("Change colour here")
-        this.handleColorChange(color);
+        // //get array val and change
+        // Create a new copy of the colors array
+        const newColors = [...this.props.colours];
+        // Update the color at the specified index
+        // newColors[color] = this.props.colour;
+        // Update the state with the new colors array
+        this.setState({ colors: newColors });
+
         const clickedElement = event.currentTarget;
-        clickedElement.style.backgroundColor = hsvaToHex(this.state.colors[color]);
+        clickedElement.style.backgroundColor = hsvaToHex(this.props.colours[color]);
     }
 
     // functions are declared like this
@@ -75,35 +76,11 @@ export class Palette extends React.Component<props, state> {
                                 onClick ={this.onClick(0)}
                             />
 
-                            <div 
-                                className={"circle colour2"} 
-                                style={{backgroundColor: hsvaToHex(this.props.colours[1])}}
-                                onClick ={this.onClick(1)}
-                            />
-
-                            <div 
-                                className={"circle colour3"} 
-                                style={{backgroundColor: hsvaToHex(this.props.colours[2])}}
-                                onClick ={this.onClick(2)}
-                            />
-
-                            <div 
-                                className={"circle colour4"} 
-                                style={{backgroundColor: hsvaToHex(this.props.colours[3])}}
-                                onClick ={this.onClick(3)}
-                           />
-
-                            <div 
-                                className={"circle colour5"} 
-                                style={{backgroundColor: hsvaToHex(this.props.colours[4])}}
-                                onClick ={this.onClick(4)}
-                            />
-
-                            <div 
-                                className={"circle colour6"} 
-                                style={{backgroundColor: hsvaToHex(this.props.colours[5])}}
-                                onClick ={this.onClick(5)}
-                            />
+                            <div className={"circle colour2"} style={{backgroundColor: hsvaToHex(this.props.colours[1])}}/>
+                            <div className={"circle colour3"} style={{backgroundColor: hsvaToHex(this.props.colours[2])}}/>
+                            <div className={"circle colour4"} style={{backgroundColor: hsvaToHex(this.props.colours[3])}}/>
+                            <div className={"circle colour5"} style={{backgroundColor: hsvaToHex(this.props.colours[4])}}/>
+                            <div className={"circle colour6"} style={{backgroundColor: hsvaToHex(this.props.colours[5])}}/>
                         </div>
                         
                     </div>
