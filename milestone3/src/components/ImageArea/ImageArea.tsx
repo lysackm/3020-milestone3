@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RgbaColor, hsvaToHex, rgbaToHex } from '@uiw/color-convert';
+import { RgbaColor, rgbaToHex } from '@uiw/color-convert';
 import './ImageArea.css';
 import logo from '../../assets/image.jpg';
 import paper from 'paper';
@@ -8,7 +8,8 @@ import { Path, Tool, Color } from 'paper';
 interface Props {}
 
 interface State {
-  color: RgbaColor;
+  color: RgbaColor,
+  mouseDown: boolean
 }
 
 export class ImageArea extends Component<Props, State> {
@@ -21,11 +22,26 @@ export class ImageArea extends Component<Props, State> {
 
     this.state = {
       color: { r: 0, g: 0, b: 0, a: 0 },
+      mouseDown: false
     };
 
     this.canvasRef = React.createRef<HTMLCanvasElement>();
     this.path = null;
     this.tool = new paper.Tool();
+
+    this.tool.onMouseDown  = (event: any) => {
+      console.log("down")
+      this.setState({mouseDown: true})
+      const colour: paper.Color = new paper.Color(rgbaToHex(this.state.color))
+  
+      this.path = new paper.Path({
+        segments: [event.point],
+        strokeColor: colour,
+        strokeWidth: 40,
+        strokeCap: 'round',
+        strokeJoin: 'round',
+      });
+    }
   }
 
   // Load Image
@@ -38,26 +54,34 @@ export class ImageArea extends Component<Props, State> {
       raster.position = paper.view.center;
     };
 
-    let colour: paper.Color = new paper.Color(rgbaToHex(this.state.color))
+  }
 
-    // Drawing Functions
-    this.tool.onMouseDown = (event: paper.MouseEvent) => {
-      console.log("here")
-      this.path = new paper.Path({
-        segments: [event.point],
-        strokeColor: colour,
-        strokeWidth: 4,
-        strokeCap: 'round',
-        strokeJoin: 'round',
-      });
-    };
+  onMouseDown = (event: any) => {
+    console.log("down")
+    this.setState({mouseDown: true})
+    const colour: paper.Color = new paper.Color(rgbaToHex(this.state.color))
 
-    this.tool.onMouseDrag = (event: paper.MouseEvent) => {
-      console.log("here")
+    this.path = new paper.Path({
+      segments: [event.point],
+      strokeColor: colour,
+      strokeWidth: 40,
+      strokeCap: 'round',
+      strokeJoin: 'round',
+    });
+  }
+
+  onMouseDrag = (event: any) => {
+    if(this.state.mouseDown){
       if (this.path) {
+        console.log("drag")
         this.path.add(event.point);
       }
-    };
+    }
+  }
+
+  onMouseUp = () => {
+    console.log("up")
+    this.setState({mouseDown: false})
   }
 
   setColor(color: RgbaColor) {
@@ -66,8 +90,12 @@ export class ImageArea extends Component<Props, State> {
 
   render() {
     return (
-      <div className="ImageArea">
-        <canvas ref={this.canvasRef} />
+      <div className="displayArea">
+        <canvas id="canvas" ref={this.canvasRef} onMouseMove={this.onMouseDrag} onMouseUp={this.onMouseUp}>
+          <div id="displayArea">
+
+          </div>
+        </canvas>
         <div className="color-picker">
           <div
             className="color-swatch"
