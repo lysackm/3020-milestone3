@@ -1,31 +1,50 @@
 import React from "react";
-import {ColorResult, RgbaColor, rgbaToHex} from "@uiw/color-convert";
-import {HslaColor, hslaToHsva, hsvaToHsla, hsvaToRgba, rgbaToHsva, Wheel} from "@uiw/react-color";
+import {ColorResult, HsvaColor, hslaToHsva, hsvaToHex, hsvaToHsla, hsvaToRgba, rgbaToHsva} from "@uiw/color-convert";
+import {Wheel} from "@uiw/react-color";
 import "./ColorPicker.css"
 import { ColourSlider } from "./ColourSlider";
+import { TextField } from "@mui/material";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
 
 interface props {}
 
 interface state {
-    colour: RgbaColor
+    colour: HsvaColor
+    mode: number
 }
 
 export class ColourPicker extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
         this.state = {
-            colour: { r: 255, g: 255, b: 255, a: 1}
+            colour: { h: 0, s: 0, v: 100, a: 1},
+            mode: 1
         }  
     }
 
     calculateComplement = () => {
-        let hsva = rgbaToHsva(this.state.colour)
-        let hsla: HslaColor = hsvaToHsla(hsva)
+        let hsva: HsvaColor = this.state.colour
 
-        hsla = { ...hsla, h: (hsla.h + 180) % 360 }
+        hsva = { ...hsva, h: (hsva.h + 180) % 360 }
         
-        hsva = hslaToHsva(hsla)
-        return hsvaToRgba(hsva)
+        return hsva
+    }
+
+    getWheelColour = () => {
+        let hsva: HsvaColor = this.state.colour
+
+        hsva = { ...hsva, v: 100}
+        
+        return hsva
+    }
+
+    setWheelColour = (colour: ColorResult) => {
+        let hsva: HsvaColor = colour.hsva
+        let value = this.state.colour.v
+        hsva = { ...hsva, v: value}
+
+        this.setState({colour: hsva})
     }
 
     swapToComplement = () => {
@@ -35,39 +54,186 @@ export class ColourPicker extends React.Component<props, state> {
     adjustSlider = (value: number, sliderColour: string) => {
         let newColour = this.state.colour
 
-        if(sliderColour === 'r'){
-            newColour = { ...this.state.colour, r: value}
-        }else if(sliderColour === 'g'){
-            newColour = { ...this.state.colour, g: value}
-        }else if(sliderColour === 'b'){
-            newColour = { ...this.state.colour, b: value}
+        if(sliderColour === 'h'){
+            newColour = { ...this.state.colour, h: value}
+        }else if(sliderColour === 's'){
+            newColour = { ...this.state.colour, s: value}
+        }else if(sliderColour === 'v'){
+            newColour = { ...this.state.colour, v: value}
         }
 
         this.setState({colour: newColour})
     }
 
+    tabColour = (tabNum: number) => {
+        if(this.state.mode === tabNum) {
+            return "lightgray"
+        }
+        return "darkgray"
+    }
+
+    switchTabs = (tabPressed: number) => {
+        this.setState({mode: tabPressed})
+    }
+
+    handleNumberInput = (value: string, className: string) => {
+        let hsva = this.state.colour
+
+        let num: number = +value.replaceAll(/[^0-9]/g, "")
+        num = Math.round(num)
+        
+        if(className && className.indexOf("rgb") > -1){
+            let rgba = hsvaToRgba(hsva)
+            if(className.indexOf("red") > -1){
+                rgba = { ...rgba, r: Math.min(num, 255)}
+            }else if(className.indexOf("green") > -1){
+                rgba = { ...rgba, g: Math.min(num, 255)}
+            }else if(className.indexOf("blue") > -1){
+                rgba = { ...rgba, b: Math.min(num, 255)}
+            }
+            hsva = rgbaToHsva(rgba)
+        } else if(className && className.indexOf("hsl") > -1){
+            let hsla = hsvaToHsla(hsva)
+            if(className.indexOf("hue") > -1){
+                hsla = { ...hsla, h: Math.min(num, 359)}
+            }else if(className.indexOf("saturation") > -1){
+                hsla = { ...hsla, s: Math.min(num, 99)}
+            }else if(className.indexOf("light") > -1){
+                hsla = { ...hsla, l: Math.min(num, 99)}
+            }
+            hsva = hslaToHsva(hsla)
+        }
+        this.setState({colour: hsva})
+    }
+
+    clipboard = () => {
+        navigator.clipboard.writeText(hsvaToHex(this.state.colour))
+    }
+
     render() {
         return (
-            <div className={"colorPicker"}>
-                <div className={"block"} style={{background: rgbaToHex(this.state.colour)}}/>
-                <div className={"display"}>
-                    <ColourSlider colour={this.state.colour} colourName={"r"} updateColour={this.adjustSlider}></ColourSlider>
-                    <ColourSlider colour={this.state.colour} colourName={"g"} updateColour={this.adjustSlider}></ColourSlider>
-                    <ColourSlider colour={this.state.colour} colourName={"b"} updateColour={this.adjustSlider}></ColourSlider>
-                    <div className={"complement"}>
-                        <div className={"complement-color"} style={{background: rgbaToHex(this.calculateComplement())}}/>
-
-                        <div className={"swap"} onClick={this.swapToComplement}/>
+            <div>
+                <div className={"colorPicker"}>
+                    <div className={"block"} style={{background: hsvaToHex(this.state.colour)}}/>
+                    <div className={"display"}>
+                        {this.state.mode === 1 && 
+                            <>
+                                <ColourSlider 
+                                    colour={this.state.colour} 
+                                    colourName={"h"} 
+                                    updateColour={this.adjustSlider}
+                                    max={360}
+                                />
+                                <ColourSlider 
+                                    colour={this.state.colour} 
+                                    colourName={"s"} 
+                                    updateColour={this.adjustSlider} 
+                                    max={100}
+                                />
+                                <ColourSlider 
+                                    colour={this.state.colour} 
+                                    colourName={"v"} 
+                                    updateColour={this.adjustSlider} 
+                                    max={100}
+                                />
+                            </>
+                        }   
+                        {this.state.mode === 2 &&
+                            <div>
+                                <div className={"details"}>
+                                    <TextField
+                                        label={"Red"}
+                                        className={"numberInput"}
+                                        size={"small"}
+                                        value={hsvaToRgba(this.state.colour).r}
+                                        onChange={(e) => {this.handleNumberInput(e.target.value, "rgb red")}}
+                                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
+                                    />
+                                    <TextField
+                                        label={"Green"}
+                                        className={"numberInput"}
+                                        size={"small"}
+                                        value={hsvaToRgba(this.state.colour).g}
+                                        onChange={(e) => {this.handleNumberInput(e.target.value, "rgb green")}}
+                                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
+                                    />
+                                    <TextField
+                                        label={"Blue"}
+                                        className={"numberInput"}
+                                        size={"small"}
+                                        value={hsvaToRgba(this.state.colour).b}
+                                        onChange={(e) => {this.handleNumberInput(e.target.value, "rgb blue")}}
+                                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
+                                    />
+                                </div>
+                                <div className={"details"}>
+                                    <TextField
+                                        label={"Hue"}
+                                        className={"numberInput"}
+                                        size={"small"}
+                                        value={hsvaToHsla(this.state.colour).h}
+                                        onChange={(e) => {this.handleNumberInput(e.target.value, "hsl hue")}}
+                                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
+                                    />
+                                    <TextField
+                                        label={"Saturation"}
+                                        className={"numberInput"}
+                                        size={"small"}
+                                        value={Math.round(hsvaToHsla(this.state.colour).s)}
+                                        onChange={(e) => {this.handleNumberInput(e.target.value, "hsl saturation")}}
+                                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
+                                    />
+                                    <TextField
+                                        label={"Lightness"}
+                                        className={"numberInput"}
+                                        size={"small"}
+                                        value={Math.round(hsvaToHsla(this.state.colour).l)}
+                                        onChange={(e) => {this.handleNumberInput(e.target.value, "hsl lightness")}}
+                                        inputProps={{ inputMode: 'numeric', pattern: '[0-9]* '}}
+                                    />
+                                </div>
+                                <div className={"hexCode"}>
+                                    Hex Code: {hsvaToHex(this.state.colour)}
+                                    <ContentCopyIcon style={{ color: "black", marginLeft: "10px"}} onClick={this.clipboard}/>
+                                </div>
+                            </div>
+                        }
+                        <div className={"complement"}>
+                            <div className={"complement-color"} style={{background: hsvaToHex(this.calculateComplement())}}/>
+                            <div className={"swap"} onClick={this.swapToComplement}>
+                                <SwapHorizIcon fontSize="large" style={{color: 'black'}}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <Wheel
+                            className={"wheel"}
+                            color={this.getWheelColour()}
+                            onChange={this.setWheelColour}
+                            width={200}
+                            height={200}
+                        />
                     </div>
                 </div>
-                <div>
-                    <Wheel
-                        className={"wheel"}
-                        color={rgbaToHsva(this.state.colour)}
-                        onChange={(colour: ColorResult) => { this.setState({colour: colour.rgba}) }}
-                        width={200}
-                        height={200}
-                    />
+                <div className={"tabs"}>
+                    <div 
+                        className={"tab"}
+                        style={{backgroundColor: this.tabColour(1)}} 
+                        onClick={() => {this.switchTabs(1)}}
+                    >
+                        <div className={"tabText"}>
+                            Mode 1
+                        </div>
+                    </div>
+                    <div 
+                        className={"tab"}
+                        style={{backgroundColor: this.tabColour(2)}}
+                        onClick={() => {this.switchTabs(2)}}
+                    >
+                        <div className={"tabText"}>
+                            Mode 2
+                        </div>
+                    </div>
                 </div>
             </div>
         )
