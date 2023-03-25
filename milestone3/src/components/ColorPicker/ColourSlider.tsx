@@ -52,7 +52,7 @@ export class ColourSlider extends React.Component<props, state> {
     }
 
     adjustSlider = (event: Event, value: number | Array<number>) => {
-        if(value instanceof Array<number>)
+        if(value instanceof Array)
             return
 
         this.props.updateColour(value, this.props.colourName)

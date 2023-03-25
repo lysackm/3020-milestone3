@@ -2,6 +2,8 @@ import { HsvaColor, hsvaToHex } from "@uiw/react-color";
 import React from "react";
 import { ColourPicker } from "../ColorPicker/ColourPicker";
 import "./Homepage.css"
+import { Menu } from "../menu/Menu";
+
 
 
 interface state {
@@ -65,15 +67,16 @@ export class Homepage extends React.Component<props, state> {
     render() {
         return (
             <div>
-                {/* temporary for testing */}
-                <div className="displayActive" style={{background: hsvaToHex(this.state.activeColour)}}></div>
                 <div>
                     {/* menu and header style={{background: hsvaToHex(this.state.activeColour)}}*/}
+                    <Menu></Menu>
                 </div>
+                {/* temporary for testing */}
+                <div className="displayActive" style={{background: hsvaToHex(this.state.activeColour)}}></div>
                 <div className="flex">
                     {/* Image and palette area */}
                 </div>
-                <div className="flex">
+                <div className="flex colourPicker">
                     {/* ColourPicker and paintbrush */}
                     <ColourPicker changeColour={this.changeActiveColour} colour={this.state.activeColour}></ColourPicker>
                 </div>
