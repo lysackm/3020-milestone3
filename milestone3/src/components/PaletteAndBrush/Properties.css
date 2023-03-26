@@ -1,0 +1,91 @@
+.circle {
+    /* position: absolute; */
+    /* right: 100px; */
+    /* color: white; */
+    height: 75%;
+    width: 75%;
+    margin: 0%;
+    border-radius: 50%;
+    border-width: 3%;
+    border-style: solid;
+    border-color: white;
+    position: absolute;
+    align-self: center;
+}
+
+.circle:hover {
+  height: 80%;
+  width: 80%;
+  margin: -2.5%;
+  border-radius: 50%;
+  border-color: white;
+  border-width: 1%;
+  position: absolute;
+  align-self: center;
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  width: 100px;
+  height: 100px;
+  margin: 300px;
+  left: 300px;
+  bottom: -20px;
+}
+
+.colour1 {
+  left: 60%;
+  bottom: -170%;
+}
+
+.colour2 {
+  left: 85%;
+  bottom: -78%;
+}
+
+.colour3 {
+  left: 160%;
+  bottom: -14%;
+}
+
+.colour4 {
+  left: 260%;
+  bottom: -50%;
+}
+
+.colour5 {
+  left: 315%;
+  bottom: -134%;
+}
+
+.colour6 {
+  left: 335%;
+  bottom: -226%;
+}
+
+/* PAINT BRUSH CSS STARTS HERE */
+.BrushContainer {
+  position: relative;
+  text-align: center;
+  width: 14%;
+  height: 16%;
+  left: 95%;
+  bottom: 225px;
+}
+
+.BrushTip {
+  height: 12%; 
+  width: 25%;
+  margin: 0%;
+  left: 19%;
+  bottom: 81%;
+  transform: rotate(-10deg);
+  position: absolute;
+  align-self: center;
+  border-radius : 50% / 10%;
+}
+
+.paintBrushImg {
+  object-fit: fill;
+}

@@ -1,8 +1,10 @@
-import { HsvaColor, hsvaToHex } from "@uiw/react-color";
+import { HsvaColor, hexToHsva, hsvaToHex } from "@uiw/react-color";
 import React from "react";
 import { ColourPicker } from "../ColorPicker/ColourPicker";
 import "./Homepage.css"
 import { Menu } from "../menu/Menu";
+import { Palette } from "../PaletteAndBrush/PaletteComponent";
+import { PaintBrush } from "../PaletteAndBrush/paintBrush";
 
 
 interface image {
@@ -28,15 +30,16 @@ export class Homepage extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
 
-        const initialColour = { h: 0, s: 0, v: 100, a: 1}
+        const initialColour = { h: 0, s: 0, v: 100, a: 1 }
+        let colours: HsvaColor[] = [hexToHsva("#FFFFFF"), hexToHsva("#FFFF00"), hexToHsva("#FF00FF"), hexToHsva("#00FFFF"), hexToHsva("#F0F0FF"), hexToHsva("#0FFFF0")]
 
         this.state = {
             activeColour: initialColour,
             activeColourPosition: 0,
-            palette: [initialColour],
             paletteHistory: [],
             colorHistory: [],
             imageHistory: []
+            palette: colours
         }
     }
 
@@ -77,6 +80,8 @@ export class Homepage extends React.Component<props, state> {
     render() {
         return (
             <div>
+                {/* temporary for testing */}
+                <div className="displayActive" style={{background: hsvaToHex(this.state.activeColour)}}></div>
                 <div>
                     {/* menu and header style={{background: hsvaToHex(this.state.activeColour)}}*/}
                     <Menu></Menu>
@@ -85,10 +90,16 @@ export class Homepage extends React.Component<props, state> {
                 <div className="displayActive" style={{background: hsvaToHex(this.state.activeColour)}}></div>
                 <div className="flex">
                     {/* Image and palette area */}
+                    <Palette
+                        colour={this.state.activeColour}
+                        colours={this.state.palette}
+                        changeColour={this.changeActiveColour}
+                    />
                 </div>
                 <div className="flex colourPicker">
                     {/* ColourPicker and paintbrush */}
                     <ColourPicker changeColour={this.changeActiveColour} colour={this.state.activeColour}></ColourPicker>
+                    <PaintBrush colour={this.state.activeColour}></PaintBrush>
                 </div>
             </div>
         )

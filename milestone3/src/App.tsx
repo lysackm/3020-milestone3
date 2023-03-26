@@ -12,6 +12,7 @@ const theme = createTheme({
 });
 
 function App() {
+
   return (
     <div>
       <ThemeProvider theme={theme}>
@@ -19,6 +20,10 @@ function App() {
           <Homepage/>
         </header>
       </ThemeProvider>
+    <div className="App">
+      <header className="App-header">
+      <Homepage/>
+      </header>
     </div>
   );
 }
