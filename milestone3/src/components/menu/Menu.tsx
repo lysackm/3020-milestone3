@@ -45,10 +45,25 @@ export class Menu extends React.Component<props, state> {
                     onClose={() => {this.setState({openDrawer: false})}}
                 >
                     <div className="menu">
-                        <Tabs value={this.state.tab} onChange={this.selectTab}>
-                            <Tab label="Colour History"/>
-                            <Tab label="Palette History"/>
-                            <Tab label="Image History"/>
+                        <Tabs 
+                            value={this.state.tab} 
+                            onChange={this.selectTab}
+                            variant="fullWidth"
+                            textColor="inherit"
+                            indicatorColor="secondary"
+                        >
+                            <Tab 
+                                label="Colour History"
+                                style={{fontWeight: 700}}
+                            />
+                            <Tab 
+                                label="Palette History"
+                                style={{fontWeight: 700}}
+                            />
+                            <Tab 
+                                label="Image History"
+                                style={{fontWeight: 700}}
+                            />
                         </Tabs>
                         {this.state.tab === 0 &&
                             <div>
