@@ -29,8 +29,14 @@ export class Homepage extends React.Component<props, state> {
     }
 
     changeActiveColour = (colour: HsvaColor) => {
+        this.setState({activeColour: colour}, () => {
+            this.checkColour(colour)
+        })
+
+    }
+
+    checkColour = (colour: HsvaColor) => {
         let colourExists = false;
-        this.setState({activeColour: colour})
 
         for(let i = 0; i < this.state.palette.length && !colourExists; i++){
             if(this.cmpHsva(this.state.palette[i], this.state.activeColour)){
@@ -46,9 +52,9 @@ export class Homepage extends React.Component<props, state> {
 
     replacePaletteColour = (newColour: HsvaColor) => {
         let pos = this.state.activeColourPosition;
-        let newPalette = {...this.state.palette}
+        let newPalette = this.state.palette
 
-        newPalette[pos] = newColour
+        newPalette[pos] = {...newColour}
 
         this.setState({palette: newPalette})
     }
