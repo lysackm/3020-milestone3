@@ -5,11 +5,18 @@ import "./Homepage.css"
 import { Menu } from "../menu/Menu";
 
 
+interface image {
+    link: string,
+    painting: string
+}
 
 interface state {
     activeColour: HsvaColor,
     activeColourPosition: number, 
     palette: HsvaColor[],
+    paletteHistory: HsvaColor[][],
+    colorHistory: HsvaColor[],
+    imageHistory: image[]
 }
 
 interface props {
@@ -26,7 +33,10 @@ export class Homepage extends React.Component<props, state> {
         this.state = {
             activeColour: initialColour,
             activeColourPosition: 0,
-            palette: [initialColour]
+            palette: [initialColour],
+            paletteHistory: [],
+            colorHistory: [],
+            imageHistory: []
         }
     }
 
