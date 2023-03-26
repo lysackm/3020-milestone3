@@ -2,8 +2,13 @@ import React from "react";
 import "./Menu.css"
 import MenuIcon from '@mui/icons-material/Menu';
 import { Drawer, Tab, Tabs } from "@mui/material";
+import { HsvaColor } from "@uiw/react-color";
+import { Image } from "../Homepage/Homepage"
 
 interface props {
+    paletteHistory: HsvaColor[][],
+    colourHistory: HsvaColor[],
+    imageHistory: Image[]
 }
 
 interface state {

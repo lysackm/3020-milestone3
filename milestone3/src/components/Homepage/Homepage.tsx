@@ -7,7 +7,7 @@ import { Palette } from "../PaletteAndBrush/PaletteComponent";
 import { PaintBrush } from "../PaletteAndBrush/paintBrush";
 
 
-interface image {
+export interface Image {
     link: string,
     painting: string
 }
@@ -18,7 +18,7 @@ interface state {
     palette: HsvaColor[],
     paletteHistory: HsvaColor[][],
     colorHistory: HsvaColor[],
-    imageHistory: image[]
+    imageHistory: Image[]
 }
 
 interface props {
@@ -30,15 +30,14 @@ export class Homepage extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
 
-        const initialColour = { h: 0, s: 0, v: 100, a: 1 }
         let colours: HsvaColor[] = [hexToHsva("#FFFFFF"), hexToHsva("#FFFF00"), hexToHsva("#FF00FF"), hexToHsva("#00FFFF"), hexToHsva("#F0F0FF"), hexToHsva("#0FFFF0")]
 
         this.state = {
-            activeColour: initialColour,
+            activeColour: colours[0],
             activeColourPosition: 0,
             paletteHistory: [],
             colorHistory: [],
-            imageHistory: []
+            imageHistory: [],
             palette: colours
         }
     }
@@ -61,7 +60,7 @@ export class Homepage extends React.Component<props, state> {
 
     replacePaletteColour = (newColour: HsvaColor) => {
         let pos = this.state.activeColourPosition;
-        let newPalette = this.state.palette
+        let newPalette = {...this.state.palette}
 
         newPalette[pos] = newColour
 
@@ -80,14 +79,14 @@ export class Homepage extends React.Component<props, state> {
     render() {
         return (
             <div>
-                {/* temporary for testing */}
-                <div className="displayActive" style={{background: hsvaToHex(this.state.activeColour)}}></div>
                 <div>
                     {/* menu and header style={{background: hsvaToHex(this.state.activeColour)}}*/}
-                    <Menu></Menu>
+                    <Menu
+                        paletteHistory={this.state.paletteHistory}
+                        colourHistory={this.state.colorHistory}
+                        imageHistory={this.state.imageHistory}
+                    />
                 </div>
-                {/* temporary for testing */}
-                <div className="displayActive" style={{background: hsvaToHex(this.state.activeColour)}}></div>
                 <div className="flex">
                     {/* Image and palette area */}
                     <Palette
