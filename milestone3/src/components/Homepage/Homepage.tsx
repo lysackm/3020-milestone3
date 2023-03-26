@@ -30,19 +30,24 @@ export class Homepage extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
 
-        let colours: HsvaColor[] = [hexToHsva("#FFFFFF"), hexToHsva("#FFFF00"), hexToHsva("#FF00FF"), hexToHsva("#00FFFF"), hexToHsva("#F0F0FF"), hexToHsva("#0FFFF0")]
-
         this.state = {
-            activeColour: colours[0],
+            activeColour: hexToHsva("#FFFFFF"),
             activeColourPosition: 0,
+            palette: [hexToHsva("#FFFFFF"), hexToHsva("#FFFF00"), hexToHsva("#FF00FF"), hexToHsva("#00FFFF"), hexToHsva("#F0F0FF"), hexToHsva("#0FFFF0")],
             paletteHistory: [],
             colorHistory: [],
-            imageHistory: [],
-            palette: colours
+            imageHistory: []
         }
     }
 
     changeActiveColour = (colour: HsvaColor) => {
+        this.setState({activeColour: colour}, () => {
+            this.checkColour(colour)
+        })
+
+    }
+
+    checkColour = (colour: HsvaColor) => {
         let colourExists = false;
         this.setState({activeColour: colour})
 
@@ -60,9 +65,9 @@ export class Homepage extends React.Component<props, state> {
 
     replacePaletteColour = (newColour: HsvaColor) => {
         let pos = this.state.activeColourPosition;
-        let newPalette = {...this.state.palette}
+        let newPalette = this.state.palette
 
-        newPalette[pos] = newColour
+        newPalette[pos] = {...newColour}
 
         this.setState({palette: newPalette})
     }
@@ -79,6 +84,8 @@ export class Homepage extends React.Component<props, state> {
     render() {
         return (
             <div>
+                {/* temporary for testing */}
+                <div className="displayActive" style={{background: hsvaToHex(this.state.activeColour)}}></div>
                 <div>
                     {/* menu and header style={{background: hsvaToHex(this.state.activeColour)}}*/}
                     <Menu
