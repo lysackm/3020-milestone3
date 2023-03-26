@@ -49,7 +49,7 @@ export class Homepage extends React.Component<props, state> {
 
     replacePaletteColour = (newColour: HsvaColor) => {
         let pos = this.state.activeColourPosition;
-        let newPalette = this.state.palette
+        let newPalette = {...this.state.palette}
 
         newPalette[pos] = newColour
 
