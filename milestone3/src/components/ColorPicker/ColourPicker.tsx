@@ -200,7 +200,10 @@ export class ColourPicker extends React.Component<props, state> {
                             </div>
                         }
                         <div className={"complement"}>
+                            {/* complement color block */}
                             <div className={"complement-color"} style={{background: hsvaToHex(this.calculateComplement())}}/>
+                            
+                            {/* complement swap  button */}
                             <div className={"swap"} onClick={this.swapToComplement}>
                                 <SwapHorizIcon fontSize="large" style={{color: 'black'}}/>
                             </div>

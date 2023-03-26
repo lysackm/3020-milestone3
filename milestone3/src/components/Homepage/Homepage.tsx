@@ -1,7 +1,9 @@
-import { HsvaColor, hsvaToHex } from "@uiw/react-color";
+import { HsvaColor, hexToHsva, hsvaToHex } from "@uiw/react-color";
 import React from "react";
 import { ColourPicker } from "../ColorPicker/ColourPicker";
 import "./Homepage.css"
+import { Palette } from "../PaletteAndBrush/PaletteComponent";
+import { PaintBrush } from "../PaletteAndBrush/paintBrush";
 
 
 interface state {
@@ -19,12 +21,13 @@ export class Homepage extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
 
-        const initialColour = { h: 0, s: 0, v: 100, a: 1}
+        const initialColour = { h: 0, s: 0, v: 100, a: 1 }
+        let colours: HsvaColor[] = [hexToHsva("#FFFFFF"), hexToHsva("#FFFF00"), hexToHsva("#FF00FF"), hexToHsva("#00FFFF"), hexToHsva("#F0F0FF"), hexToHsva("#0FFFF0")]
 
         this.state = {
             activeColour: initialColour,
             activeColourPosition: 0,
-            palette: [initialColour]
+            palette: colours
         }
     }
 
@@ -46,7 +49,7 @@ export class Homepage extends React.Component<props, state> {
 
     replacePaletteColour = (newColour: HsvaColor) => {
         let pos = this.state.activeColourPosition;
-        let newPalette = this.state.palette
+        let newPalette = {...this.state.palette}
 
         newPalette[pos] = newColour
 
@@ -72,10 +75,16 @@ export class Homepage extends React.Component<props, state> {
                 </div>
                 <div className="flex">
                     {/* Image and palette area */}
+                    <Palette 
+                        colour={this.state.activeColour} 
+                        colours={this.state.palette}
+                        changeColour={this.changeActiveColour}
+                    />
                 </div>
                 <div className="flex">
                     {/* ColourPicker and paintbrush */}
                     <ColourPicker changeColour={this.changeActiveColour} colour={this.state.activeColour}></ColourPicker>
+                    <PaintBrush colour={this.state.activeColour}></PaintBrush>
                 </div>
             </div>
         )
