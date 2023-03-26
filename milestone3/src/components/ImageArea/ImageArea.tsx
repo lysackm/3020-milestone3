@@ -1,112 +1,68 @@
-import React, { Component } from 'react';
-import { RgbaColor, rgbaToHex } from '@uiw/color-convert';
+import React from 'react';
 import './ImageArea.css';
-import logo from '../../assets/image.jpg';
-import paper from 'paper';
-import { Path, Tool, Color } from 'paper';
+import CanvasDraw from "react-canvas-draw";
+import { HsvaColor, hsvaToHex } from '@uiw/react-color';
+import { Button } from '@mui/material';
 
-interface Props {}
-
-interface State {
-  color: RgbaColor,
-  mouseDown: boolean
+interface Props {
+  activeColour: HsvaColor
 }
 
-export class ImageArea extends Component<Props, State> {
-  private canvasRef: React.RefObject<HTMLCanvasElement>;
-  private path: paper.Path | null;
-  private tool: paper.Tool;
+interface State {
+  lastSave: string | undefined
+}
 
+export class ImageArea extends React.Component<Props, State> {
+  private canvasRef: CanvasDraw | null;
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      color: { r: 0, g: 0, b: 0, a: 0 },
-      mouseDown: false
+      lastSave: ''
     };
 
-    this.canvasRef = React.createRef<HTMLCanvasElement>();
-    this.path = null;
-    this.tool = new paper.Tool();
+    this.canvasRef = null;
+  }
 
-    this.tool.onMouseDown  = (event: any) => {
-      console.log("down")
-      this.setState({mouseDown: true})
-      const colour: paper.Color = new paper.Color(rgbaToHex(this.state.color))
-  
-      this.path = new paper.Path({
-        segments: [event.point],
-        strokeColor: colour,
-        strokeWidth: 40,
-        strokeCap: 'round',
-        strokeJoin: 'round',
-      });
+  clear = () => {
+    this.canvasRef?.clear()
+  }
+
+  undo = () => {
+    this.canvasRef?.undo()
+  }
+
+  save = () => {
+    this.setState({lastSave: this.canvasRef?.getSaveData()})
+  }
+
+  load = () => {
+    if(this.state.lastSave){
+      this.canvasRef?.loadSaveData(this.state.lastSave)
     }
   }
 
-  // Load Image
-  componentDidMount() {
-    const canvas = this.canvasRef.current!;
-    paper.setup(canvas);
-
-    const raster = new paper.Raster(logo);
-    raster.onLoad = () => {
-      raster.position = paper.view.center;
-    };
-
-  }
-
-  onMouseDown = (event: any) => {
-    console.log("down")
-    this.setState({mouseDown: true})
-    const colour: paper.Color = new paper.Color(rgbaToHex(this.state.color))
-
-    this.path = new paper.Path({
-      segments: [event.point],
-      strokeColor: colour,
-      strokeWidth: 40,
-      strokeCap: 'round',
-      strokeJoin: 'round',
-    });
-  }
-
-  onMouseDrag = (event: any) => {
-    if(this.state.mouseDown){
-      if (this.path) {
-        console.log("drag")
-        this.path.add(event.point);
-      }
-    }
-  }
-
-  onMouseUp = () => {
-    console.log("up")
-    this.setState({mouseDown: false})
-  }
-
-  setColor(color: RgbaColor) {
-    this.setState({ color });
-  }
 
   render() {
     return (
-      <div className="displayArea">
-        <canvas id="canvas" ref={this.canvasRef} onMouseMove={this.onMouseDrag} onMouseUp={this.onMouseUp}>
-          <div id="displayArea">
-
-          </div>
-        </canvas>
-        <div className="color-picker">
-          <div
-            className="color-swatch"
-            style={{ backgroundColor: `rgba(${this.state.color.r},${this.state.color.g},${this.state.color.b},${this.state.color.a})` }}
-          />
-          {/* <input
-            type="color"
-            value={`#${this.state.color.r.toString(16).padStart(2, '0')}${this.state.color.g.toString(16).padStart(2, '0')}${this.state.color.b.toString(16).padStart(2, '0')}${this.state.color.a.toString(16).padStart(2, '0')}`}
-            onChange={(e) => this.setColor(Color.parse(e.target.value))}
-          /> */}
-        </div>
+      <div className='canvas'>
+        <Button onClick={this.save}>
+          save
+        </Button>
+        <Button onClick={this.load}>
+          load
+        </Button>
+        <Button onClick={this.clear}>
+          clear
+        </Button>
+        <CanvasDraw
+          ref={canvasDraw => (this.canvasRef = canvasDraw)}
+          canvasWidth={800} 
+          canvasHeight={400}
+          hideGrid={true}
+          imgSrc='https://upload.wikimedia.org/wikipedia/commons/2/22/Sunset_may_2006_panorama.jpg'
+          brushColor={hsvaToHex(this.props.activeColour)}
+        />
       </div>
     );
   }

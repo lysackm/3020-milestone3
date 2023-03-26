@@ -1,8 +1,8 @@
-.displayArea {
-    width:800px;
-    height: 400px;
+.canvas {
+    margin: 50px;
 }
 
 .main {
     display: flex;
 }
+

@@ -13,7 +13,7 @@ function App() {
         
         
         <div className="main">
-          <ImageArea></ImageArea>
+          <ImageArea activeColour={{h: 260, s: 100, v: 100, a: 1}}></ImageArea>
           <div style={{display: "block"}}>
               <img src={logo} className="App-logo" alt="logo" />
               <p>
