@@ -21,13 +21,10 @@ export class Homepage extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
 
-        const initialColour = { h: 0, s: 0, v: 100, a: 1 }
-        let colours: HsvaColor[] = [hexToHsva("#FFFFFF"), hexToHsva("#FFFF00"), hexToHsva("#FF00FF"), hexToHsva("#00FFFF"), hexToHsva("#F0F0FF"), hexToHsva("#0FFFF0")]
-
         this.state = {
-            activeColour: initialColour,
+            activeColour: hexToHsva("#FFFFFF"),
             activeColourPosition: 0,
-            palette: colours
+            palette: [hexToHsva("#FFFFFF"), hexToHsva("#FFFF00"), hexToHsva("#FF00FF"), hexToHsva("#00FFFF"), hexToHsva("#F0F0FF"), hexToHsva("#0FFFF0")]
         }
     }
 
