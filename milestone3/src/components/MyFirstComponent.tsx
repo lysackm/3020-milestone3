@@ -63,6 +63,7 @@ export class MyFirstComponent extends React.Component<props, state> {
                         {/* onClick is a default thing, when you click this button, call the function */}
                         {/* Hey this is using a string object as text, this is very useful! */}
                         <button onClick={this.onClick}>{this.state.buttonText}</button>
+                        <p>This is a paragraph html tag</p>
                     </div>
                 }
             </>
