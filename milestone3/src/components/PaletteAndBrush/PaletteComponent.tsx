@@ -63,45 +63,42 @@ export class Palette extends React.Component<props, state> {
                         {/* onClick is a default thing, when you click this button, call the function */}
                         {/* Hey this is using a string object as text, this is very useful! */}
                         {/* <button onClick={this.onClick}>{this.state.buttonText}</button> */}
-                        <Tooltip disableFocusListener disableTouchListener title="Colour palette. Click a colour to use or change.">
-                            <div className="container">
-                                <img src ={palette} alt="art palette" width= "465%" height ="465%"/>
+                        <div className="container">
+                            <img src ={palette} alt="art palette" width= "465%" height ="465%"/>
 
-                                <div 
-                                    key = {0}
-                                    className={"colour1 circle"} 
-                                    style={{backgroundColor: hsvaToHex(this.props.colours[0])}}
-                                    onClick ={this.onClick(0)}
-                                />
+                            <div 
+                                key = {0}
+                                className={"colour1 circle"} 
+                                style={{backgroundColor: hsvaToHex(this.props.colours[0])}}
+                                onClick ={this.onClick(0)}
+                            />
 
-                                <div 
-                                    className={"circle colour2"} 
-                                    style={{backgroundColor: hsvaToHex(this.props.colours[1])}}
-                                    onClick ={this.onClick(1)}
-                                />
-                                <div 
-                                    className={"circle colour3"} 
-                                    style={{backgroundColor: hsvaToHex(this.props.colours[2])}}
-                                    onClick ={this.onClick(2)}
-                                />
-                                <div 
-                                    className={"circle colour4"} 
-                                    style={{backgroundColor: hsvaToHex(this.props.colours[3])}}
-                                    onClick ={this.onClick(3)}
-                                />
-                                <div 
-                                    className={"circle colour5"} 
-                                    style={{backgroundColor: hsvaToHex(this.props.colours[4])}}
-                                    onClick ={this.onClick(4)}
-                                />
-                                <div 
-                                    className={"circle colour6"} 
-                                    style={{backgroundColor: hsvaToHex(this.props.colours[5])}}
-                                    onClick ={this.onClick(5)}
-                                />
-                            </div>
-                        </Tooltip>
-                        
+                            <div 
+                                className={"circle colour2"} 
+                                style={{backgroundColor: hsvaToHex(this.props.colours[1])}}
+                                onClick ={this.onClick(1)}
+                            />
+                            <div 
+                                className={"circle colour3"} 
+                                style={{backgroundColor: hsvaToHex(this.props.colours[2])}}
+                                onClick ={this.onClick(2)}
+                            />
+                            <div 
+                                className={"circle colour4"} 
+                                style={{backgroundColor: hsvaToHex(this.props.colours[3])}}
+                                onClick ={this.onClick(3)}
+                            />
+                            <div 
+                                className={"circle colour5"} 
+                                style={{backgroundColor: hsvaToHex(this.props.colours[4])}}
+                                onClick ={this.onClick(4)}
+                            />
+                            <div 
+                                className={"circle colour6"} 
+                                style={{backgroundColor: hsvaToHex(this.props.colours[5])}}
+                                onClick ={this.onClick(5)}
+                            />
+                        </div>                        
                     </div>
                 }
             </>
