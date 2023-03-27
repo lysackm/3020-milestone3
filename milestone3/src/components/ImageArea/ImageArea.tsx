@@ -2,7 +2,9 @@ import React from 'react';
 import './ImageArea.css';
 import CanvasDraw from "react-canvas-draw";
 import { HsvaColor, hsvaToHex } from '@uiw/react-color';
-import { Button } from '@mui/material';
+import SaveIcon from '@mui/icons-material/Save';
+import UndoIcon from '@mui/icons-material/Undo';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface Props {
   activeColour: HsvaColor
@@ -46,23 +48,25 @@ export class ImageArea extends React.Component<Props, State> {
   render() {
     return (
       <div className='canvas'>
-        <Button onClick={this.save}>
-          save
-        </Button>
-        <Button onClick={this.load}>
-          load
-        </Button>
-        <Button onClick={this.clear}>
-          clear
-        </Button>
         <CanvasDraw
-          ref={canvasDraw => (this.canvasRef = canvasDraw)}
+          ref={(canvasDraw: any) => (this.canvasRef = canvasDraw)}
           canvasWidth={800} 
           canvasHeight={400}
           hideGrid={true}
           imgSrc='https://upload.wikimedia.org/wikipedia/commons/2/22/Sunset_may_2006_panorama.jpg'
           brushColor={hsvaToHex(this.props.activeColour)}
         />
+        <div className="buttons">
+          <div className="canvas-button" onClick={this.save}>
+            <SaveIcon className="canvas-icon"/>
+          </div>
+          <div className="canvas-button" onClick={this.undo}>
+            <UndoIcon className="canvas-icon"/>
+          </div>
+          <div className="canvas-button" onClick={this.clear}>
+            <DeleteIcon className="canvas-icon"/>
+          </div>
+        </div>
       </div>
     );
   }
