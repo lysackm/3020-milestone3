@@ -5,6 +5,7 @@ import "./Homepage.css"
 import { Menu } from "../menu/Menu";
 import { Palette } from "../PaletteAndBrush/PaletteComponent";
 import { PaintBrush } from "../PaletteAndBrush/paintBrush";
+import { ImageArea } from "../ImageArea/ImageArea"
 
 
 export interface Image {
@@ -133,6 +134,7 @@ export class Homepage extends React.Component<props, state> {
                 </div>
                 <div className="flex">
                     {/* Image and palette area */}
+                    <ImageArea activeColour={this.state.activeColour}></ImageArea>
                     <Palette
                         colour={this.state.activeColour}
                         colours={this.state.palette}
