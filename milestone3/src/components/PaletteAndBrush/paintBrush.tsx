@@ -5,7 +5,7 @@ import React from "react";
 import "./Properties.css"
 import {HsvaColor, RgbaColor, hsvaToHex} from "@uiw/color-convert";
 import paintBrush from '../../assets/PaintBrush.png';
-
+import Tooltip from '@mui/material/Tooltip';
 
 interface props {
     colour: HsvaColor
@@ -35,20 +35,22 @@ export class PaintBrush extends React.Component<props, state> {
                 {/* This is a typescript code block inside of html code */}
                 {
                     // div is a division. Think of this as a box that holds stuff
-                    <div className={"BrushContainer"} > 
+                    <Tooltip disableFocusListener disableTouchListener title="Currently selected colour">
+                        <div className={"BrushContainer"} > 
                         
-                        <img 
-                            className="paintBrushImg"
-                            src ={paintBrush} 
-                            alt="paint brush" 
-                            width= "90%" height ="200%"
+                            <img 
+                                className="paintBrushImg"
+                                src ={paintBrush} 
+                                alt="paint brush" 
+                                width= "90%" height ="200%"
+                                />
+                            <div   
+                                className={"BrushTip"} 
+                                style={{backgroundColor: hsvaToHex(this.props.colour)}}
+                                    
                             />
-                        <div   
-                            className={"BrushTip"} 
-                            style={{backgroundColor: hsvaToHex(this.props.colour)}}
-                                
-                        />
-                    </div>
+                        </div>
+                    </Tooltip>
                 }
             </>
         )
