@@ -1,12 +1,13 @@
 import { Slider } from "@mui/material"
-import { RgbaColor } from "@uiw/react-color"
+import { HsvaColor, RgbaColor } from "@uiw/react-color"
 import React from "react"
 import "./ColorPicker.css"
 
 interface props {
-    colour: RgbaColor
+    colour: HsvaColor
     colourName: string
     updateColour: (value: number, sliderColour: string) => void
+    max: number
 }
 
 interface state {
@@ -30,18 +31,28 @@ export class ColourSlider extends React.Component<props, state> {
         }
     }
 
-    getValue = (colour: RgbaColor) => {
-        if(this.props.colourName === 'r'){
-            return colour.r
-        }else if(this.props.colourName === 'g'){
-            return colour.g
+    getValue = (colour: HsvaColor) => {
+        if(this.props.colourName === 'h'){
+            return colour.h
+        }else if(this.props.colourName === 's'){
+            return colour.s
         }else { // b
-            return colour.b
+            return colour.v
+        }
+    }
+
+    getLabel = () => {
+        if(this.props.colourName === 'h'){
+            return "hue"
+        }else if(this.props.colourName === 's'){
+            return "saturation"
+        }else { // b
+            return "brightness"
         }
     }
 
     adjustSlider = (event: Event, value: number | Array<number>) => {
-        if(value instanceof Array<number>)
+        if(value instanceof Array)
             return
 
         this.props.updateColour(value, this.props.colourName)
@@ -53,11 +64,11 @@ export class ColourSlider extends React.Component<props, state> {
         return (
             <div style={{display: "flex"}}>
                 <div className={"label"}>
-                   {this.props.colourName}
+                   {this.getLabel()}
                 </div>
                 <Slider
                     className={"slider"}
-                    max={255}
+                    max={this.props.max}
                     value={this.state.value}
                     aria-label="Default"
                     valueLabelDisplay="auto"
