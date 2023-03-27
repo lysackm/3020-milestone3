@@ -19,7 +19,7 @@ export class PaletteHistory extends React.Component<props, state> {
 
     render() {
         return (
-            <div className="palette-history">
+            <div className="palette-history scroll">
                 {this.props.paletteHistory.map((palette) => 
                     <PaletteDisplay 
                         palette={palette} 

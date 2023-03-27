@@ -19,7 +19,7 @@ export class ColourHistory extends React.Component<props, state> {
 
     render() {
         return (
-            <div className="colour-history">
+            <div className="colour-history scroll">
                 {this.props.colourHistory.map((colour) => 
                     <Colour colour={colour} selectable={true} changeColour={this.props.changeColour}/>
                 )}
