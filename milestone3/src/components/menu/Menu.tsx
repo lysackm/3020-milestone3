@@ -4,11 +4,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Drawer, Tab, Tabs } from "@mui/material";
 import { HsvaColor } from "@uiw/react-color";
 import { Image } from "../Homepage/Homepage"
+import { PaletteHistory } from "./PaletteHistory";
+import { ColourHistory } from "./ColourHistory";
 
 interface props {
     paletteHistory: HsvaColor[][],
     colourHistory: HsvaColor[],
-    imageHistory: Image[]
+    imageHistory: Image[],
+    changeColour: (colour: HsvaColor) => void,
+    loadPalette: (palette: HsvaColor[]) => void,
 }
 
 interface state {
@@ -73,16 +77,18 @@ export class Menu extends React.Component<props, state> {
                         {this.state.tab === 0 &&
                             <div>
                                 {/* Colour History component */}
+                                <ColourHistory colourHistory={this.props.colourHistory} changeColour={this.props.changeColour}/>
                             </div>
                         }
                         {this.state.tab === 1 &&
                             <div>
-                                {/* Colour History component */}
+                                {/* Palette History component */}
+                                <PaletteHistory paletteHistory={this.props.paletteHistory} loadPalette={this.props.loadPalette}/>
                             </div>
                         }
                         {this.state.tab === 2 &&
                             <div>
-                                {/* Colour History component */}
+                                {/* Image History component */}
                             </div>
                         }
                     </div>
