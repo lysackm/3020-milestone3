@@ -42,21 +42,22 @@
 }
 
 .slider {
-  margin-left: 50px;
+  margin-left: 20px;
   margin-top: 5px;
   display: block !important;
-  width: 250px !important;
+  width: 230px !important;
 }
 
 .label {
   margin-left: 10px;
   margin-top: 9px;
-  width: 20px;
+  width: 70px;
   height: 40px;
   background: lightgrey;
   color: black;
   font-size: 14px;
   align-self: center;
+  text-align: right;
 }
 
 .tab {
@@ -74,7 +75,7 @@
 }
 
 .tabText {
-  margin-top: 1px;
+  text-align: center;
 }
 
 .numberInput {

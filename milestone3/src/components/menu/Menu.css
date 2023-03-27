@@ -1,0 +1,53 @@
+.menuButton {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    background-color: lightgray;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu {
+    width: 600px;
+    height: 100%;
+    background-color: lightgray;
+}
+
+.colour-box {
+    height: 50px;
+    min-height: 50px;
+    width: 50px;
+    min-width: 50px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.selectable-colour-box:hover {
+    height: 55px;
+    width: 55px;
+    min-width: 55px;
+    border-radius: 11px;
+    margin: 17.5px;
+    align-self: center;
+}
+
+.palette-display {
+    display: flex;
+    justify-content: space-between;
+}
+
+.palette-display:hover {
+    background-color: rgb(165, 163, 163);
+}
+
+.palette-history {
+    display: block;
+}
+
+.colour-history {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow: auto;
+}
