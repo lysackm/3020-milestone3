@@ -5,6 +5,7 @@ import { HsvaColor, hsvaToHex } from '@uiw/react-color';
 import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Tooltip from '@mui/material/Tooltip';
 
 interface Props {
   activeColour: HsvaColor
@@ -58,13 +59,19 @@ export class ImageArea extends React.Component<Props, State> {
         />
         <div className="buttons">
           <div className="canvas-button" onClick={this.save}>
-            <SaveIcon className="canvas-icon"/>
+            <Tooltip disableFocusListener disableTouchListener title="Save">
+              <SaveIcon className="canvas-icon"/>
+            </Tooltip>
           </div>
           <div className="canvas-button" onClick={this.undo}>
-            <UndoIcon className="canvas-icon"/>
+            <Tooltip disableFocusListener disableTouchListener title="Undo">
+              <UndoIcon className="canvas-icon"/>
+            </Tooltip>
           </div>
           <div className="canvas-button" onClick={this.clear}>
-            <DeleteIcon className="canvas-icon"/>
+            <Tooltip disableFocusListener disableTouchListener title="Clear">
+              <DeleteIcon className="canvas-icon"/>
+            </Tooltip>
           </div>
         </div>
       </div>

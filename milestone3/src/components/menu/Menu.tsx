@@ -6,6 +6,9 @@ import { HsvaColor } from "@uiw/react-color";
 import { Image } from "../Homepage/Homepage"
 import { PaletteHistory } from "./PaletteHistory";
 import { ColourHistory } from "./ColourHistory";
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import ClickAwayListener from "@mui/material/ClickAwayListener";
 
 interface props {
     paletteHistory: HsvaColor[][],
@@ -17,7 +20,8 @@ interface props {
 
 interface state {
     openDrawer: boolean,
-    tab: number
+    tab: number,
+    open: boolean
 }
 
 
@@ -26,7 +30,8 @@ export class Menu extends React.Component<props, state> {
         super(props)
         this.state = {
             openDrawer: false,
-            tab: 0
+            tab: 0,
+            open: false
         }
     }
 
@@ -37,6 +42,14 @@ export class Menu extends React.Component<props, state> {
     selectTab = (event: React.SyntheticEvent, index: number) => {
         this.setState({tab: index})
     }
+
+    handleTooltipClose = () => {
+        this.setState({open: false});
+    };
+
+    handleTooltipOpen = () => {
+        this.setState({open: true})
+    };
 
     render() {
         return (
@@ -78,17 +91,68 @@ export class Menu extends React.Component<props, state> {
                             <div>
                                 {/* Colour History component */}
                                 <ColourHistory colourHistory={this.props.colourHistory} changeColour={this.props.changeColour}/>
+                                <ClickAwayListener onClickAway={this.handleTooltipClose}>
+                                    <div>
+                                        <Tooltip
+                                            PopperProps={{
+                                                disablePortal: true,
+                                            }}
+                                            onClose={this.handleTooltipClose}
+                                            open={this.state.open}
+                                            disableFocusListener
+                                            disableHoverListener
+                                            disableTouchListener
+                                            title="Successfully exported"
+                                        >
+                                            <Button onClick={this.handleTooltipOpen} variant="contained">Export</Button>
+                                        </Tooltip>
+                                    </div>
+                                </ClickAwayListener>
                             </div>
                         }
                         {this.state.tab === 1 &&
                             <div>
                                 {/* Palette History component */}
                                 <PaletteHistory paletteHistory={this.props.paletteHistory} loadPalette={this.props.loadPalette}/>
+                                <ClickAwayListener onClickAway={this.handleTooltipClose}>
+                                    <div>
+                                        <Tooltip
+                                            PopperProps={{
+                                                disablePortal: true,
+                                            }}
+                                            onClose={this.handleTooltipClose}
+                                            open={this.state.open}
+                                            disableFocusListener
+                                            disableHoverListener
+                                            disableTouchListener
+                                            title="Successfully exported"
+                                        >
+                                            <Button onClick={this.handleTooltipOpen} variant="contained">Export</Button>
+                                        </Tooltip>
+                                    </div>
+                                </ClickAwayListener>
                             </div>
                         }
                         {this.state.tab === 2 &&
                             <div>
                                 {/* Image History component */}
+                                <ClickAwayListener onClickAway={this.handleTooltipClose}>
+                                    <div>
+                                        <Tooltip
+                                            PopperProps={{
+                                                disablePortal: true,
+                                            }}
+                                            onClose={this.handleTooltipClose}
+                                            open={this.state.open}
+                                            disableFocusListener
+                                            disableHoverListener
+                                            disableTouchListener
+                                            title="Successfully exported"
+                                        >
+                                            <Button onClick={this.handleTooltipOpen} variant="contained">Export</Button>
+                                        </Tooltip>
+                                    </div>
+                                </ClickAwayListener>
                             </div>
                         }
                     </div>
