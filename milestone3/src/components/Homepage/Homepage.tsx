@@ -6,6 +6,7 @@ import { Menu } from "../menu/Menu";
 import { Palette } from "../PaletteAndBrush/PaletteComponent";
 import { PaintBrush } from "../PaletteAndBrush/paintBrush";
 import { ImageArea } from "../ImageArea/ImageArea";
+import { InfoButton } from "../infoButton/Button";
 
 
 export interface Image {
@@ -20,26 +21,38 @@ interface state {
     paletteHistory: HsvaColor[][],
     colorHistory: HsvaColor[],
     imageHistory: Image[],
-    changed: boolean
+    changed: boolean,
+    activeImage: Image
 }
 
 interface props {
 
 }
 
+const images: Image[] = [
+    {link: "https://upload.wikimedia.org/wikipedia/commons/2/22/Sunset_may_2006_panorama.jpg", painting: '{"lines":[],"width":600,"height":300}'},
+    {link: "https://upload.wikimedia.org/wikipedia/commons/d/d8/Delicatearch.png", painting: '{"lines":[],"width":600,"height":300}'},
+    {link: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Hepatica_nobilis_flowers_-_blue_and_pink_-_Keila.jpg", painting: '{"lines":[],"width":600,"height":300}'},
+    {link: "https://upload.wikimedia.org/wikipedia/commons/e/ee/Manhattan_Beach_Sunset.jpg", painting: '{"lines":[],"width":600,"height":300}'},
+    {link: "https://upload.wikimedia.org/wikipedia/commons/9/90/Sunset_Marina.JPG", painting: '{"lines":[],"width":600,"height":300}'},
+    {link: "https://upload.wikimedia.org/wikipedia/commons/9/9d/Autumn_Colours_-_Stourhead_-_geograph.org.uk_-_1044997.jpg", painting: '{"lines":[],"width":600,"height":300}'}
+    ]
+
+// const images: Image[] = [{link: "https://upload.wikimedia.org/wikipedia/commons/2/22/Sunset_may_2006_panorama.jpg", painting: '{"lines":[],"width":600,"height":300}'}]
 
 export class Homepage extends React.Component<props, state> {
     constructor(props: props) {
         super(props)
 
         this.state = {
-            activeColour: hexToHsva("#FFFFFF"),
+            activeColour: hexToHsva("#ff7094"),
             activeColourPosition: 0,
-            palette: [hexToHsva("#FFFFFF"), hexToHsva("#FFFF00"), hexToHsva("#FF00FF"), hexToHsva("#00FFFF"), hexToHsva("#F0F0FF"), hexToHsva("#0FFFF0")],
+            palette: [hexToHsva("#ff7094"), hexToHsva("#70ffdb"), hexToHsva("#0aab3d"), hexToHsva("#ab223e"), hexToHsva("#a735ab"), hexToHsva("#1547ab")],
             paletteHistory: [],
             colorHistory: [],
-            imageHistory: [],
-            changed: true
+            imageHistory: images,
+            changed: true,
+            activeImage: images[0]
         }
     }
 
@@ -48,6 +61,26 @@ export class Homepage extends React.Component<props, state> {
             this.checkColour(colour)
         })
 
+    }
+
+    addImage = (image: Image) => {
+        let newImageHistory = this.state.imageHistory
+        let newImage = {...image}
+        newImageHistory.unshift(newImage)
+        this.setState({imageHistory: newImageHistory})
+    }
+
+    changeImage = (image: Image, doodles: string) => {
+        image.painting = doodles
+    }
+
+    loadImage = (image: Image) => {
+        let newImage = {...image}
+        this.setState({activeImage: newImage})
+    }
+
+    getCopy = (image: Image) => {
+        return {...image}
     }
 
     addColour = (colour: HsvaColor) => {
@@ -122,7 +155,8 @@ export class Homepage extends React.Component<props, state> {
     render() {
         return (
             <div>
-                <div>
+                <InfoButton></InfoButton>
+                <div className="flex">
                     {/* menu and header style={{background: hsvaToHex(this.state.activeColour)}}*/}
                     <Menu
                         paletteHistory={this.state.paletteHistory}
@@ -130,18 +164,25 @@ export class Homepage extends React.Component<props, state> {
                         imageHistory={this.state.imageHistory}
                         changeColour={this.checkColour}
                         loadPalette={this.loadPalette}
+                        loadImage={this.loadImage}
                     />
+                    
                 </div>
                 <div className="flex">
                     {/* Image and palette area */}
-                    <ImageArea activeColour={this.state.activeColour}></ImageArea>
+                    <ImageArea 
+                        activeColour={this.state.activeColour}
+                        image={this.getCopy(this.state.activeImage)}
+                        addImage={this.addImage}
+                        changeImage={this.changeImage}
+                    />
                     <Palette
                         colour={this.state.activeColour}
                         colours={this.state.palette}
                         changeColour={this.changeActiveColour}
                     />
                 </div>
-                <div className="flex colourPicker">
+                <div className="flex colour-picker-homepage">
                     {/* ColourPicker and paintbrush */}
                     <ColourPicker changeColour={this.changeActiveColour} colour={this.state.activeColour}></ColourPicker>
                     <PaintBrush colour={this.state.activeColour}></PaintBrush>

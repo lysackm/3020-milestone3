@@ -8,6 +8,23 @@
     justify-content: center;
 }
 
+.image-history-menu {
+    background-color: lightgray;
+    width: 100%;
+    justify-items: center;
+}
+
+.image-menu {
+    margin-top: 10px;
+    margin-left: 90px;
+}
+
+.save-button {
+    position: fixed;
+    bottom: 0px;
+    margin: 10px;
+}
+
 .scroll {
     overflow-y: auto !important;
     background-color: lightgray;

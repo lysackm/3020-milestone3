@@ -6,13 +6,19 @@ import SaveIcon from '@mui/icons-material/Save';
 import UndoIcon from '@mui/icons-material/Undo';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Tooltip from '@mui/material/Tooltip';
+import { Image } from '../Homepage/Homepage'
+import { Alert, Snackbar } from '@mui/material';
 
 interface Props {
-  activeColour: HsvaColor
+  activeColour: HsvaColor,
+  image: Image,
+  addImage: (image: Image) => void,
+  changeImage: (image: Image, doodles: string) => void
 }
 
 interface State {
-  lastSave: string | undefined
+  lastSave: string | undefined,
+  open: boolean
 }
 
 export class ImageArea extends React.Component<Props, State> {
@@ -21,7 +27,8 @@ export class ImageArea extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      lastSave: ''
+      lastSave: '',
+      open: false
     };
 
     this.canvasRef = null;
@@ -33,10 +40,16 @@ export class ImageArea extends React.Component<Props, State> {
 
   undo = () => {
     this.canvasRef?.undo()
+    console.log(this.props.image.painting)
   }
 
   save = () => {
     this.setState({lastSave: this.canvasRef?.getSaveData()})
+    if(this.canvasRef?.getSaveData()){
+      this.props.changeImage(this.props.image, this.canvasRef?.getSaveData())
+      this.props.addImage(this.props.image)
+    }
+    this.setState({open: true})
   }
 
   load = () => {
@@ -51,11 +64,12 @@ export class ImageArea extends React.Component<Props, State> {
       <div className='canvas'>
         <CanvasDraw
           ref={(canvasDraw: any) => (this.canvasRef = canvasDraw)}
-          canvasWidth={800} 
-          canvasHeight={400}
+          canvasWidth={600} 
+          canvasHeight={300}
           hideGrid={true}
-          imgSrc='https://upload.wikimedia.org/wikipedia/commons/2/22/Sunset_may_2006_panorama.jpg'
+          imgSrc={this.props.image.link}
           brushColor={hsvaToHex(this.props.activeColour)}
+          saveData={this.props.image.painting}
         />
         <div className="buttons">
           <div className="canvas-button" onClick={this.save}>
@@ -74,6 +88,15 @@ export class ImageArea extends React.Component<Props, State> {
             </Tooltip>
           </div>
         </div>
+        <Snackbar 
+          open={this.state.open}
+          autoHideDuration={2000}
+          onClose={() => {this.setState({open: false})}}
+        >
+            <Alert severity="success" sx={{ width: '100%' }}>
+              Saved!
+            </Alert>
+        </Snackbar>
       </div>
     );
   }

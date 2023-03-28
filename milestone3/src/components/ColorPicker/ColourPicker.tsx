@@ -226,7 +226,7 @@ export class ColourPicker extends React.Component<props, state> {
                         onClick={() => {this.switchTabs(1)}}
                     >
                         <div className={"tabText"}>
-                            Mode 1
+                            Basic
                         </div>
                     </div>
                     <div 
@@ -235,7 +235,7 @@ export class ColourPicker extends React.Component<props, state> {
                         onClick={() => {this.switchTabs(2)}}
                     >
                         <div className={"tabText"}>
-                            Mode 2
+                            Detailed
                         </div>
                     </div>
                 </div>

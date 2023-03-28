@@ -1,7 +1,7 @@
 import React from "react";
 import "./Menu.css"
 import MenuIcon from '@mui/icons-material/Menu';
-import { Drawer, Tab, Tabs } from "@mui/material";
+import { Alert, Drawer, Snackbar, Tab, Tabs } from "@mui/material";
 import { HsvaColor } from "@uiw/react-color";
 import { Image } from "../Homepage/Homepage"
 import { PaletteHistory } from "./PaletteHistory";
@@ -9,6 +9,8 @@ import { ColourHistory } from "./ColourHistory";
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import ClickAwayListener from "@mui/material/ClickAwayListener";
+import { ImageHistory } from "./ImageHistory";
+import CanvasDraw from "react-canvas-draw";
 
 interface props {
     paletteHistory: HsvaColor[][],
@@ -16,12 +18,14 @@ interface props {
     imageHistory: Image[],
     changeColour: (colour: HsvaColor) => void,
     loadPalette: (palette: HsvaColor[]) => void,
+    loadImage: (image: Image) => void
 }
 
 interface state {
     openDrawer: boolean,
     tab: number,
-    open: boolean
+    open: boolean,
+    info: boolean
 }
 
 
@@ -31,7 +35,8 @@ export class Menu extends React.Component<props, state> {
         this.state = {
             openDrawer: false,
             tab: 0,
-            open: false
+            open: false,
+            info: false
         }
     }
 
@@ -50,6 +55,10 @@ export class Menu extends React.Component<props, state> {
     handleTooltipOpen = () => {
         this.setState({open: true})
     };
+
+    close = () => {
+        this.setState({info: false})
+    }
 
     render() {
         return (
@@ -92,7 +101,7 @@ export class Menu extends React.Component<props, state> {
                                 {/* Colour History component */}
                                 <ColourHistory colourHistory={this.props.colourHistory} changeColour={this.props.changeColour}/>
                                 <ClickAwayListener onClickAway={this.handleTooltipClose}>
-                                    <div>
+                                    <div className="save-button">
                                         <Tooltip
                                             PopperProps={{
                                                 disablePortal: true,
@@ -115,7 +124,7 @@ export class Menu extends React.Component<props, state> {
                                 {/* Palette History component */}
                                 <PaletteHistory paletteHistory={this.props.paletteHistory} loadPalette={this.props.loadPalette}/>
                                 <ClickAwayListener onClickAway={this.handleTooltipClose}>
-                                    <div>
+                                    <div className="save-button">
                                         <Tooltip
                                             PopperProps={{
                                                 disablePortal: true,
@@ -134,10 +143,22 @@ export class Menu extends React.Component<props, state> {
                             </div>
                         }
                         {this.state.tab === 2 &&
-                            <div>
+                            <div className="image-history-menu">
                                 {/* Image History component */}
+                                {this.props.imageHistory.map((image) => 
+                                    <div className="image-menu" onClick={() => {this.props.loadImage(image); this.setState({info: true})}}>
+                                        <CanvasDraw
+                                        hideInterface={true}
+                                        hideGrid={true}
+                                        disabled
+                                        imgSrc={image.link}
+                                        saveData={image.painting}
+                                        />
+                                    </div>
+                                )}
+                                
                                 <ClickAwayListener onClickAway={this.handleTooltipClose}>
-                                    <div>
+                                    <div className="save-button">
                                         <Tooltip
                                             PopperProps={{
                                                 disablePortal: true,
@@ -156,6 +177,15 @@ export class Menu extends React.Component<props, state> {
                             </div>
                         }
                     </div>
+                    <Snackbar 
+                        open={this.state.info}
+                        autoHideDuration={2000}
+                        onClose={this.close}
+                        >
+                            <Alert severity="info" sx={{ width: '100%' }}>
+                            Loaded
+                            </Alert>
+                        </Snackbar>
                 </Drawer>
             </div>
         )

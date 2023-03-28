@@ -24,6 +24,7 @@ export class PaletteDisplay extends React.Component<props, state> {
                     <Colour colour={colour}/>
                 )}
             </div>
+            
         )
     }
 }

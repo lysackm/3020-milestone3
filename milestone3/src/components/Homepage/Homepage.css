@@ -5,6 +5,19 @@
     background-color: white;
 }
 
-.colourPicker {
-    margin: 50px;
+.colour-picker-homepage {
+    margin: 10px;
+    margin-left: 50px;
+}
+
+.flex {
+    display: flex;
+}
+
+.inbetween {
+    justify-content: space-between;
+}
+
+.left {
+    left: 100px;
 }
